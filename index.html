@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Big Steps Travel — Nordic & Baltic Escape</title>
+<meta name="description" content="Your Nordic & Baltic itinerary, built for the road — flights, hotels, tours and daily plans in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101c2c'/%3E%3Cpath d='M8 22 L14 22 L14 17 L20 17 L20 12 L24 12' stroke='%23d9a441' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav-row">
+    <a class="brand" href="#" data-nav="overview">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7"/><path d="M8 22 L14 22 L14 17 L20 17 L20 12 L24 12" stroke="var(--paper)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="brand-word">Big Steps <em>Travel</em></span>
+    </a>
+    <nav class="primary-nav" aria-label="Primary">
+      <button class="nav-btn active" data-nav="overview">Trip</button>
+      <button class="nav-btn" data-nav="reservations">Reservations</button>
+      <button class="nav-btn" data-nav="explore">Explore</button>
+      <button class="nav-btn" data-nav="map">Map</button>
+      <button class="nav-btn" data-nav="info">Info</button>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav" hidden>
+  <button class="mobile-nav-btn" data-nav="overview">Trip (Overview · Today · Day by Day)</button>
+  <button class="mobile-nav-btn" data-nav="reservations">Reservations</button>
+  <button class="mobile-nav-btn" data-nav="explore">Explore</button>
+  <button class="mobile-nav-btn" data-nav="map">Map</button>
+  <button class="mobile-nav-btn" data-nav="info">Important Info</button>
+</div>
+
+<main id="app"></main>
+
+<nav class="tab-bar" aria-label="Sections">
+  <button class="tab-btn active" data-nav="overview">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>
+    Trip
+  </button>
+  <button class="tab-btn" data-nav="reservations">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"/><path d="M4 7l2-3h12l2 3M9 12h6"/></svg>
+    Reservations
+  </button>
+  <button class="tab-btn" data-nav="explore">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6 6-2Z"/></svg>
+    Explore
+  </button>
+  <button class="tab-btn" data-nav="map">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 20l-6-2V4l6 2 6-2 6 2v14l-6-2-6 2Z"/><path d="M9 6v14M15 4v14"/></svg>
+    Map
+  </button>
+  <button class="tab-btn" data-nav="info">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+    Info
+  </button>
+</nav>
+
+<!-- Reservation / activity detail sheet -->
+<dialog id="detailSheet">
+  <div class="sheet-inner" id="sheetBody"></div>
+  <button class="sheet-close" id="sheetClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</dialog>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
