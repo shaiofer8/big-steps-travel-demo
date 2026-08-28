@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Big Steps Travel — Nordic & Baltic Escape (Classic)</title>
+<meta name="description" content="Your Nordic & Baltic itinerary, one day at a time — sites, food and good-to-know tips for every stop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M8 22 L14 22 L14 17 L20 17 L20 12 L24 12' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="#" data-nav="day">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8"/><path d="M8 22 L14 22 L14 17 L20 17 L20 12 L24 12" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="brand-word">Big Steps Travel</span>
+    </a>
+    <nav class="primary-nav" aria-label="Primary">
+      <button class="nav-btn active" data-nav="day">Itinerary</button>
+      <button class="nav-btn" data-nav="reservations">Reservations</button>
+      <button class="nav-btn" data-nav="map">Map</button>
+    </nav>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<nav class="tab-bar" aria-label="Sections">
+  <button class="tab-btn active" data-nav="day">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>
+    Itinerary
+  </button>
+  <button class="tab-btn" data-nav="reservations">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"/><path d="M4 7l2-3h12l2 3M9 12h6"/></svg>
+    Reservations
+  </button>
+  <button class="tab-btn" data-nav="map">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 20l-6-2V4l6 2 6-2 6 2v14l-6-2-6 2Z"/><path d="M9 6v14M15 4v14"/></svg>
+    Map
+  </button>
+</nav>
+
+<dialog id="detailSheet">
+  <div class="sheet-inner" id="sheetBody"></div>
+  <button class="sheet-close" id="sheetClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</dialog>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
