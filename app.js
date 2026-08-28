@@ -45,13 +45,22 @@ function typeLabel(t) {
   return { flight: "Flight", hotel: "Hotel", tour: "Tour / Experience", ferry: "Ferry", train: "Train" }[t] || t;
 }
 
+// Three-color reservation coding (Steve's ask): blue = hotels, orange =
+// planes/boats/trains, green = tours/experiences.
+function typeGroup(t) {
+  if (t === "hotel") return "hotel";
+  if (t === "flight" || t === "train" || t === "ferry") return "transport";
+  return "tour";
+}
+
 // ---------------------------------------------------------------------------
 // Timeline block renderer (shared by Today + Day by Day)
 // ---------------------------------------------------------------------------
 function renderTlItem(block, isLast) {
   const hasRes = !!block.resId;
+  const group = hasRes ? typeGroup(RESERVATIONS[block.resId].type) : "";
   const chip = hasRes
-    ? `<button class="res-chip" data-res="${block.resId}">
+    ? `<button class="res-chip restype-${group}" data-res="${block.resId}">
          <span class="tag">${iconSvg(block.icon)}</span>
          View reservation details
        </button>`
@@ -62,7 +71,7 @@ function renderTlItem(block, isLast) {
     ? ` · <a class="sheet-maplink" style="display:inline" href="${mapsUrl(block.mapQuery)}" target="_blank" rel="noopener">Open in Maps ↗</a>`
     : "";
   return `
-    <div class="tl-item ${hasRes ? "has-res" : ""}">
+    <div class="tl-item ${hasRes ? "has-res" : ""}" ${hasRes ? `data-restype="${group}"` : ""}>
       <div class="tl-time mono">${block.time}</div>
       <div class="tl-rail"><div class="tl-dot"></div><div class="tl-line"></div></div>
       <div class="tl-content">
@@ -133,6 +142,64 @@ function renderOverview() {
       </div>
     </section>`;
 
+  // City summary card — shown once, on the arrival day of each city stay.
+  function citySummaryCard(city) {
+    const info = INFO[city];
+    if (!info || !info.stay) return "";
+    const sites = (EXPLORE[city] || [])
+      .map((p) => `<li><a href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener"><b>${p.name}</b></a> — ${p.desc}</li>`)
+      .join("");
+    return `
+      <div class="card city-summary">
+        ${info.cityImage ? `<div class="city-summary-media"><img src="${info.cityImage}" alt="${city}" loading="lazy"></div>` : ""}
+        <div class="city-summary-body">
+          <h3>${city}</h3>
+          <div class="city-summary-stats">
+            <span>${info.stay}</span>
+            <span>${info.weather}</span>
+            <span>${info.hoursAheadDC}</span>
+          </div>
+          ${sites ? `<p class="city-summary-label">Sites &amp; things to do</p><ul class="site-list">${sites}</ul>` : ""}
+        </div>
+      </div>`;
+  }
+
+  // Food + Transportation guidance — shown once, at the end of each city stay.
+  function cityGuideCard(city) {
+    const info = INFO[city];
+    if (!info || !(info.food || info.transportTips)) return "";
+    const foodHtml = info.food
+      ? `<div class="guide-col"><h4>Restaurants · Coffee · Bars</h4><ul class="site-list">${info.food.map((f) => `<li><b>${f.name}</b> — ${f.desc}</li>`).join("")}</ul></div>`
+      : "";
+    const transportHtml = info.transportTips
+      ? `<div class="guide-col"><h4>Transportation</h4><ul class="site-list">${info.transportTips.map((t) => `<li>${t}</li>`).join("")}</ul></div>`
+      : "";
+    return `
+      <div class="card guide-card">
+        <p class="eyebrow">Leaving ${city}</p>
+        <div class="guide-grid">${foodHtml}${transportHtml}</div>
+      </div>`;
+  }
+
+  const dayCards = DAYS.map((d, i) => {
+    const isArrival = i === 0 || DAYS[i - 1].city !== d.city;
+    const isDeparture = i === DAYS.length - 1 || DAYS[i + 1].city !== d.city;
+    const summary = isArrival ? citySummaryCard(d.city) : "";
+    const guide = isDeparture ? cityGuideCard(d.city) : "";
+    return `
+      ${summary}
+      <div class="card day-card">
+        <div class="day-card-head">
+          <div class="day-date">${fmtDate(d.date)}</div>
+          <div class="day-sub mono">Day ${i + 1} of ${DAYS.length} · ${d.city} — ${d.title}</div>
+        </div>
+        <div class="timeline" style="margin-top:14px">
+          ${d.blocks.map((b) => renderTlItem(b)).join("")}
+        </div>
+      </div>
+      ${guide}`;
+  }).join("");
+
   const daysHtml = `
     <section class="section wrap">
       <div class="section-head">
@@ -142,19 +209,8 @@ function renderOverview() {
         </div>
         <p>The complete ${DAYS.length}-day plan — every flight, hotel check-in, tour and free afternoon, in order.</p>
       </div>
-      <div style="display:flex;flex-direction:column;gap:32px">
-        ${DAYS.map(
-          (d, i) => `
-          <div class="card" style="padding:22px 24px">
-            <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
-              <h3 style="font-size:1.15rem">Day ${i + 1} · ${d.city} — ${d.title}</h3>
-              <span class="mono" style="font-size:.82rem;color:var(--ink-mute)">${fmtDate(d.date)}</span>
-            </div>
-            <div class="timeline" style="margin-top:14px">
-              ${d.blocks.map((b) => renderTlItem(b)).join("")}
-            </div>
-          </div>`
-        ).join("")}
+      <div style="display:flex;flex-direction:column;gap:20px">
+        ${dayCards}
       </div>
     </section>`;
 
@@ -191,7 +247,7 @@ function renderReservations() {
           ${items
             .map(
               (r) => `
-            <div class="res-card" data-type="${type}" data-res="${r.id}">
+            <div class="res-card" data-type="${type}" data-restype="${typeGroup(r.type)}" data-res="${r.id}">
               <div class="kicker">${typeLabel(r.type)}${r.conf ? " · " + r.conf : ""}</div>
               <div class="title">${r.title}</div>
               <div class="sub">${r.city ? r.city + " · " : ""}${r.checkIn ? r.checkIn : r.when ? r.when : r.legs ? r.legs[0].depart : ""}</div>
@@ -211,6 +267,11 @@ function renderReservations() {
           <h2 style="margin-top:8px">Every booking, all in one place</h2>
         </div>
         <p>No more digging through email, WhatsApp, or booking sites. Tap any card for the full confirmation.</p>
+      </div>
+      <div class="res-legend">
+        <span><i class="dot" style="background:var(--c-hotel)"></i>Hotels</span>
+        <span><i class="dot" style="background:var(--c-transport)"></i>Flights · Trains · Ferries</span>
+        <span><i class="dot" style="background:var(--c-tour)"></i>Tours &amp; Experiences</span>
       </div>
       <div class="res-groups">${groupsHtml}</div>
     </section>

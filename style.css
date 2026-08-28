@@ -14,6 +14,12 @@
   --accent-deep:#9c6a24;
   --accent-soft:#f6e9d3;
 
+  /* reservation-type coding (Steve's ask): blue=hotels, orange=transport
+     (flights/trains/ferries), green=tours & experiences */
+  --c-hotel:#2f5fd0; --c-hotel-deep:#22459c; --c-hotel-soft:#e2e9fb;
+  --c-transport:#d9761f; --c-transport-deep:#a85814; --c-transport-soft:#faead9;
+  --c-tour:#2f9e5c; --c-tour-deep:#1f7743; --c-tour-soft:#e0f3e6;
+
   --paper:#f5f7f7;
   --paper-raised:#ffffff;
   --paper-sunk:#eaeef0;
@@ -221,6 +227,9 @@ button{font-family:inherit;cursor:pointer}
 .tl-rail{display:flex;flex-direction:column;align-items:center}
 .tl-dot{width:11px;height:11px;border-radius:50%;background:var(--ink);margin-top:17px;flex:0 0 auto;border:2px solid var(--paper-raised);box-shadow:0 0 0 1.5px var(--line)}
 .tl-item.has-res .tl-dot{background:var(--accent);box-shadow:0 0 0 1.5px var(--accent-soft)}
+.tl-item[data-restype="hotel"] .tl-dot{background:var(--c-hotel);box-shadow:0 0 0 1.5px var(--c-hotel-soft)}
+.tl-item[data-restype="transport"] .tl-dot{background:var(--c-transport);box-shadow:0 0 0 1.5px var(--c-transport-soft)}
+.tl-item[data-restype="tour"] .tl-dot{background:var(--c-tour);box-shadow:0 0 0 1.5px var(--c-tour-soft)}
 .tl-line{flex:1;width:1.5px;background:var(--line);margin-top:2px}
 .tl-item:last-child .tl-line{display:none}
 .tl-content{padding:10px 0 24px}
@@ -228,7 +237,9 @@ button{font-family:inherit;cursor:pointer}
 .tl-detail{font-size:.9rem;color:var(--ink-mute);margin-top:5px;max-width:60ch}
 
 /* Ticket-stub reservation chip — the core differentiator: reservation
-   details available right where they matter in the itinerary. */
+   details available right where they matter in the itinerary. Color-coded
+   by type so travelers can skim: blue=hotels, orange=planes/boats/trains,
+   green=tours & experiences. */
 .res-chip{
   margin-top:9px;display:inline-flex;align-items:center;gap:9px;
   border:1px dashed var(--accent-deep);border-radius:999px;padding:7px 14px 7px 8px;
@@ -240,10 +251,53 @@ button{font-family:inherit;cursor:pointer}
 .res-chip:hover{transform:translateY(-1px);box-shadow:0 8px 20px -12px rgba(201,138,53,.5)}
 .res-chip .tag{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
 .res-chip .tag svg{width:13px;height:13px}
+.res-chip.restype-hotel{border-color:var(--c-hotel-deep);background:color-mix(in srgb, var(--c-hotel-soft) 70%, transparent);color:var(--c-hotel-deep)}
+.res-chip.restype-hotel .tag{background:var(--c-hotel)}
+.res-chip.restype-hotel:hover{box-shadow:0 8px 20px -12px rgba(47,95,208,.5)}
+.res-chip.restype-transport{border-color:var(--c-transport-deep);background:color-mix(in srgb, var(--c-transport-soft) 70%, transparent);color:var(--c-transport-deep)}
+.res-chip.restype-transport .tag{background:var(--c-transport)}
+.res-chip.restype-transport:hover{box-shadow:0 8px 20px -12px rgba(217,118,31,.5)}
+.res-chip.restype-tour{border-color:var(--c-tour-deep);background:color-mix(in srgb, var(--c-tour-soft) 70%, transparent);color:var(--c-tour-deep)}
+.res-chip.restype-tour .tag{background:var(--c-tour)}
+.res-chip.restype-tour:hover{box-shadow:0 8px 20px -12px rgba(47,158,92,.5)}
+
+/* Day card header — date first and prominent, "Day N" demoted to a
+   secondary sub-line (Steve's ask: dates more prominent than the day #). */
+.day-card{padding:22px 24px}
+.day-card-head{display:flex;flex-direction:column;gap:2px}
+.day-date{font-family:var(--display);font-size:1.4rem;color:var(--ink)}
+.day-sub{font-size:.8rem;color:var(--ink-mute)}
+
+/* City summary card — shown once on arrival, per Steve's Helsinki example:
+   stay length + dates, weather/sun hours, hours-ahead-of-home, plus a
+   photo and a bulleted "sites & things to do" list with map links. */
+.city-summary{padding:0;overflow:clip;display:flex;flex-wrap:wrap}
+.city-summary-media{flex:0 0 240px;min-height:180px}
+.city-summary-media img{width:100%;height:100%;object-fit:cover;min-height:180px}
+.city-summary-body{flex:1 1 320px;padding:22px 24px}
+.city-summary-body h3{font-size:1.4rem}
+.city-summary-stats{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px}
+.city-summary-stats span{
+  font-family:var(--mono);font-size:.78rem;color:var(--ink-soft);
+  background:var(--paper-sunk);border-radius:999px;padding:5px 12px;
+}
+.city-summary-label{font-weight:700;font-size:.86rem;margin-top:16px}
+.site-list{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+.site-list li{font-size:.88rem;color:var(--ink-soft);line-height:1.5}
+.site-list a{color:var(--fjord);text-decoration:none}
+.site-list a:hover{text-decoration:underline}
+
+/* Food + transportation guidance, shown once at the end of each city stay */
+.guide-card{padding:22px 24px}
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;margin-top:12px}
+.guide-col h4{font-size:.95rem;margin-bottom:6px}
 
 /* =============================================================
    RESERVATIONS PAGE
    ============================================================= */
+.res-legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+.res-legend span{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;color:var(--ink-mute);font-weight:600}
+.res-legend .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
 .res-groups{display:flex;flex-direction:column;gap:36px}
 .res-group h3{font-size:1.1rem;display:flex;align-items:center;gap:10px}
 .res-group h3 .count{font-family:var(--mono);font-size:.78rem;color:var(--ink-mute);font-weight:400}
@@ -256,8 +310,9 @@ button{font-family:inherit;cursor:pointer}
   transition:transform .15s ease, box-shadow .15s ease;
 }
 .res-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-.res-card::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:var(--fjord)}
-.res-card[data-type="flight"]::before{background:var(--accent)}
+.res-card::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:var(--c-tour)}
+.res-card[data-restype="hotel"]::before{background:var(--c-hotel)}
+.res-card[data-restype="transport"]::before{background:var(--c-transport)}
 .res-card .kicker{font-family:var(--mono);font-size:.72rem;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.05em}
 .res-card .title{font-weight:700;margin-top:4px}
 .res-card .sub{font-size:.85rem;color:var(--ink-mute);margin-top:6px}
