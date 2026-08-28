@@ -96,8 +96,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .res-chip.restype-tour{border-color:var(--c-tour-deep);background:var(--c-tour-soft);color:var(--c-tour-deep)}
 .res-chip.restype-tour .tag{background:var(--c-tour)}
 
+.leaving-banner{margin-top:30px;background:var(--teal-soft);color:var(--teal-deep);border-radius:14px;padding:12px 16px;font-weight:700;font-size:.86rem}
+
 /* Tabs */
-.tabs{display:flex;gap:6px;margin-top:34px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;margin-top:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .tab-btn2{padding:11px 6px;font-weight:700;font-size:.86rem;color:var(--ink-mute);border-bottom:2.5px solid transparent}
 .tab-btn2.active{color:var(--teal-deep);border-color:var(--teal)}
 .tab-panel{display:none;padding-top:20px}

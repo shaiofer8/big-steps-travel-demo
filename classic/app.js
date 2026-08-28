@@ -58,13 +58,14 @@
     const resBtn = hasRes
       ? `<button class="res-chip restype-${group}" data-res="${block.resId}"><span class="tag">${iconSvg(block.icon)}</span>View reservation details</button>`
       : "";
+    const detailText = block.detail || block.blurb;
     return `
       <div class="s-row">
         <div class="s-time mono">${block.time}</div>
         <div class="s-dot ${hasRes ? "restype-" + group : ""}"></div>
         <div class="s-body">
           <div class="s-title">${block.title}</div>
-          ${block.detail ? `<p class="s-detail">${block.detail}</p>` : ""}
+          ${detailText ? `<p class="s-detail">${detailText}</p>` : ""}
           <div class="s-links">${mapLink}${resBtn}</div>
         </div>
       </div>`;
@@ -77,6 +78,7 @@
     const d = DAYS[dayIndex];
     const info = INFO[d.city] || {};
     const isArrival = dayIndex === 0 || DAYS[dayIndex - 1].city !== d.city;
+    const isDeparture = dayIndex === DAYS.length - 1 || DAYS[dayIndex + 1].city !== d.city;
     const coverImg = info.cityImage || TRIP.heroImage;
 
     const cityStrip = isArrival && info.stay ? `
@@ -127,8 +129,9 @@
 
         <div class="schedule">${d.blocks.map(scheduleRow).join("")}</div>
 
+        ${isDeparture && (info.food || info.transportTips) ? `<div class="leaving-banner">📍 Last day in ${d.city} — Food and Transportation are below, ready before you go.</div>` : ""}
         <div class="tabs">
-          <button class="tab-btn2 ${activeTab === "sites" ? "active" : ""}" data-tab="sites">🗺️ Sites &amp; Things To Do</button>
+          <button class="tab-btn2 ${activeTab === "sites" ? "active" : ""}" data-tab="sites">💡 Tips — Sites &amp; Things To Do</button>
           <button class="tab-btn2 ${activeTab === "food" ? "active" : ""}" data-tab="food">🍴 Food</button>
           <button class="tab-btn2 ${activeTab === "info" ? "active" : ""}" data-tab="info">📌 Good to Know</button>
         </div>

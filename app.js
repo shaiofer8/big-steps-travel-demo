@@ -59,14 +59,15 @@ function typeGroup(t) {
 function renderTlItem(block, isLast) {
   const hasRes = !!block.resId;
   const group = hasRes ? typeGroup(RESERVATIONS[block.resId].type) : "";
-  const chip = hasRes
-    ? `<button class="res-chip restype-${group}" data-res="${block.resId}">
-         <span class="tag">${iconSvg(block.icon)}</span>
-         View reservation details
-       </button>`
-    : block.detail
-    ? `<p class="tl-detail">${block.detail}</p>`
-    : "";
+  const detailText = block.detail || block.blurb;
+  const chip = `
+    ${detailText ? `<p class="tl-detail">${detailText}</p>` : ""}
+    ${hasRes
+      ? `<button class="res-chip restype-${group}" data-res="${block.resId}">
+           <span class="tag">${iconSvg(block.icon)}</span>
+           View reservation details
+         </button>`
+      : ""}`;
   const mapLink = block.mapQuery
     ? ` · <a class="sheet-maplink" style="display:inline" href="${mapsUrl(block.mapQuery)}" target="_blank" rel="noopener">Open in Maps ↗</a>`
     : "";

@@ -182,16 +182,16 @@ const RESERVATIONS = {
 // ---------------------------------------------------------------------------
 const DAYS = [
   { date: "2026-06-09", city: "In Flight", title: "Depart Washington", blocks: [
-    { time: "5:20 PM", icon: "flight", title: "Depart IAD for Frankfurt", resId: "flightOut" },
+    { time: "5:20 PM", icon: "flight", title: "Depart IAD for Frankfurt", resId: "flightOut", blurb: "Wheels up — the first leg of the trip, Washington to Frankfurt overnight." },
   ]},
   { date: "2026-06-10", city: "Helsinki", title: "Arrival Day", blocks: [
-    { time: "9:40 AM", icon: "flight", title: "Connect FRA → HEL", resId: "flightOut" },
+    { time: "9:40 AM", icon: "flight", title: "Connect FRA → HEL", resId: "flightOut", blurb: "A short connection through Frankfurt, then on into Finland." },
     { time: "1:10 PM", icon: "flight", title: "Arrive Helsinki (HEL)", detail: "Express Train, 30 min, every 10 min, 24 miles to Helsinki Central Station (Zone A/B/C ticket, HSL app). Or buy a €5 ticket on the platform — take the \"P\" (32 min) or \"I\" (28 min) train." },
-    { time: "2:00 PM", icon: "hotel", title: "Check in — Lapland Hotels Bulevardi", resId: "hotelHelsinki" },
+    { time: "2:00 PM", icon: "hotel", title: "Check in — Lapland Hotels Bulevardi", resId: "hotelHelsinki", blurb: "Home base for the next four nights — a King room with a French balcony and sauna, a short walk from the harbor market." },
   ]},
   { date: "2026-06-11", city: "Helsinki", title: "Synagogue & Private Tour", blocks: [
     { time: "10:00 AM", icon: "activity", title: "Helsinki Synagogue Tour", detail: "€10pp donation · Malminkatu 26. One of only two synagogues in Finland; the Jewish community here numbers about 1,200.", mapQuery: "Helsinki Synagogue" },
-    { time: "11:15 AM", icon: "tour", title: "Private Highlights & Hidden Gems", resId: "tourHelsinkiLocals" },
+    { time: "11:15 AM", icon: "tour", title: "Private Highlights & Hidden Gems", resId: "tourHelsinkiLocals", blurb: "A private, local's-eye look at Helsinki beyond the guidebook stops." },
     { time: "Evening", icon: "food", title: "Dinner in the Design District", detail: "YesYesYes — vegetarian, seasonally changing menu, everything made from scratch with local ingredients." },
   ]},
   { date: "2026-06-12", city: "Helsinki", title: "Helsinki Day Celebration", blocks: [
@@ -199,45 +199,45 @@ const DAYS = [
     { time: "Afternoon", icon: "explore", title: "Bulevardi, Esplanadi Park & Kotiharjun Sauna", detail: "Café Eckberg on Bulevardi · Esplanadi park and Market Square · Kotiharjun Sauna, the city's oldest public sauna (1928)." },
   ]},
   { date: "2026-06-13", city: "Tallinn", title: "Day Trip to Estonia", blocks: [
-    { time: "7:30 AM", icon: "ferry", title: "Ferry to Tallinn", resId: "ferryTallinn" },
-    { time: "10:00 AM", icon: "tour", title: "Private Highlights & Hidden Gems", resId: "tourTallinnLocals" },
-    { time: "4:30 PM", icon: "ferry", title: "Return ferry to Helsinki", resId: "ferryTallinn" },
+    { time: "7:30 AM", icon: "ferry", title: "Ferry to Tallinn", resId: "ferryTallinn", blurb: "A 2-hour crossing on a 10-deck ferry — pub, viewing deck and duty-free on board." },
+    { time: "10:00 AM", icon: "tour", title: "Private Highlights & Hidden Gems", resId: "tourTallinnLocals", blurb: "A local's walk through the UNESCO Old Town — cobblestones, city walls, hidden courtyards." },
+    { time: "4:30 PM", icon: "ferry", title: "Return ferry to Helsinki", resId: "ferryTallinn", blurb: "Same crossing back — a good stretch to relax on the viewing deck with the day's photos." },
   ]},
   { date: "2026-06-14", city: "Stockholm", title: "Fly to Sweden", blocks: [
-    { time: "10:10 AM", icon: "flight", title: "Fly Helsinki → Stockholm", resId: "flightHelToStockholm" },
-    { time: "12:00 PM", icon: "hotel", title: "Check in — The Sparrow Hotel", resId: "hotelStockholm" },
-    { time: "12:00 PM", icon: "tour", title: "Private City Tour, Gamla Stan", resId: "tourStockholmLocals" },
+    { time: "10:10 AM", icon: "flight", title: "Fly Helsinki → Stockholm", resId: "flightHelToStockholm", blurb: "A short hop across the Gulf of Bothnia — under an hour in the air." },
+    { time: "12:00 PM", icon: "hotel", title: "Check in — The Sparrow Hotel", resId: "hotelStockholm", blurb: "A boutique stay on the top floor with city views, steps from Gamla Stan." },
+    { time: "12:00 PM", icon: "tour", title: "Private City Tour, Gamla Stan", resId: "tourStockholmLocals", blurb: "First steps into Sweden — Stockholm's 700-year-old old town, medieval alleys and all." },
   ]},
   { date: "2026-06-15", city: "Stockholm", title: "Gamla Stan & Fika", blocks: [
-    { time: "9:00 AM", icon: "tour", title: "Stockholm Full City — Multi Island", resId: "tourStockholmMultiIsland" },
+    { time: "9:00 AM", icon: "tour", title: "Stockholm Full City — Multi Island", resId: "tourStockholmMultiIsland", blurb: "A boat loop around the city center — Stockholm's islands, best seen from the water." },
     { time: "Midday", icon: "food", title: "Fika in Gamla Stan", detail: "Traditional Swedish fika (coffee + pastry) at Systrarna Andersson." },
     { time: "Afternoon", icon: "activity", title: "Nobel Prize Museum & Storkyrkan Cathedral", mapQuery: "Nobel Prize Museum, Stockholm" },
     { time: "Evening", icon: "activity", title: "IceBar Stockholm", detail: "In Hotel C, next to Central Station. 30–60 min, includes a drink in an ice glass — room kept at 23°F. Capes & gloves provided." },
   ]},
   { date: "2026-06-16", city: "Stockholm", title: "Vasa Museum & ABBA", blocks: [
-    { time: "10:00 AM", icon: "tour", title: "Vasa Museum Small-Group Tour", resId: "tourVasaMuseum" },
+    { time: "10:00 AM", icon: "tour", title: "Vasa Museum Small-Group Tour", resId: "tourVasaMuseum", blurb: "The world's only surviving 17th-century warship — raised intact after 333 years underwater." },
     { time: "1:00 PM", icon: "activity", title: "Skansen — open-air museum", detail: "Oldest open-air museum in the world — five centuries of Swedish life." },
     { time: "3:00 PM", icon: "activity", title: "ABBA The Museum", detail: "Timed entry, reservation needed — interactive exhibits, ABBA karaoke, dance-along experience.", mapQuery: "ABBA The Museum, Stockholm" },
     { time: "8:00 PM", icon: "activity", title: "Brad Paisley concert", detail: "Gröna Lund amusement park.", mapQuery: "Grona Lund, Stockholm" },
   ]},
   { date: "2026-06-17", city: "Stockholm", title: "Archipelago & Vikings", blocks: [
-    { time: "9:30 AM", icon: "tour", title: "Stockholm Archipelago Speedboat", resId: "tourArchipelago" },
-    { time: "1:00 PM", icon: "tour", title: "Viking History Walking Tour", resId: "tourVikingWalk" },
+    { time: "9:30 AM", icon: "tour", title: "Stockholm Archipelago Speedboat", resId: "tourArchipelago", blurb: "A high-speed run out through the Stockholm archipelago — 30,000 islands, best seen from the water." },
+    { time: "1:00 PM", icon: "tour", title: "Viking History Walking Tour", resId: "tourVikingWalk", blurb: "Stortorget to the Nobel Museum — the square where Stockholm itself began." },
   ]},
   { date: "2026-06-18", city: "Stockholm", title: "Royal Palace & Metro Art", blocks: [
     { time: "12:15 PM", icon: "activity", title: "Changing of the Guard", detail: "Outer courtyard parade — band marches through central Stockholm to the palace, starting 11:45 AM (view from Skeppsbron, water side of the palace)." },
     { time: "Afternoon", icon: "explore", title: "\"World's Longest Art Gallery\" — Metro Stations", detail: "Self-guided art tour through T-Centralen, Östermalmstorg, Stadion, Tekniska Högskolan, Hötorget, Thorildsplan, Fridhemsplan, Solna Centrum, Rådhuset, Kungsträdgården." },
   ]},
   { date: "2026-06-19", city: "Oslo", title: "Fly to Norway", blocks: [
-    { time: "9:10 AM", icon: "flight", title: "Fly Stockholm → Oslo", resId: "flightStockholmToOslo" },
-    { time: "12:00 PM", icon: "hotel", title: "Check in — Hotel Christiania Teater", resId: "hotelOslo" },
-    { time: "1:00 PM", icon: "tour", title: "Private City Tour, Hidden Gems", resId: "tourOsloLocals" },
+    { time: "9:10 AM", icon: "flight", title: "Fly Stockholm → Oslo", resId: "flightStockholmToOslo", blurb: "A quick one-hour flight into Norway." },
+    { time: "12:00 PM", icon: "hotel", title: "Check in — Hotel Christiania Teater", resId: "hotelOslo", blurb: "Top-floor city views, right in the heart of Oslo." },
+    { time: "1:00 PM", icon: "tour", title: "Private City Tour, Hidden Gems", resId: "tourOsloLocals", blurb: "A local's introduction to Oslo, starting at the Cathedral." },
   ]},
   { date: "2026-06-20", city: "Oslo", title: "Royal Palace & Harbor", blocks: [
-    { time: "11:30 AM", icon: "tour", title: "The Royal Palace / Castle Tour", resId: "tourRoyalPalaceOslo" },
+    { time: "11:30 AM", icon: "tour", title: "The Royal Palace / Castle Tour", resId: "tourRoyalPalaceOslo", blurb: "Inside the working Royal Palace, timed to the Changing of the Guard next door." },
     { time: "1:30 PM", icon: "activity", title: "Changing of the Guard", detail: "40-minute ceremony at the Royal Palace." },
     { time: "2:30 PM", icon: "explore", title: "Aker Brygge, Nobel Peace Center & Oslo Opera House", detail: "Harbor-front promenade from Tjuvholmen; Opera House roof (open 24/7) for the best views; Munch Museum next door.", mapQuery: "Oslo Opera House" },
-    { time: "12:00 PM", icon: "tour", title: "Fjær Konfekt — Anniversary Dessert Celebration", resId: "tourFjaerKonfekt" },
+    { time: "12:00 PM", icon: "tour", title: "Fjær Konfekt — Anniversary Dessert Celebration", resId: "tourFjaerKonfekt", blurb: "A dessert celebration stop, a short train ride from Oslo S." },
   ]},
   { date: "2026-06-21", city: "Oslo", title: "Fjord Explorers & Vigeland Park", blocks: [
     { time: "Morning", icon: "activity", title: "Fram Museum & Kon-Tiki Museum", detail: "Ferry or bus #30 to Bygdøy / Museum Island. The Fram: original polar expedition ship of Roald Amundsen. Kon-Tiki/RA2 next door.", mapQuery: "Fram Museum, Oslo" },
@@ -245,15 +245,15 @@ const DAYS = [
     { time: "Late afternoon", icon: "activity", title: "Vigeland Sculpture Park", detail: "200 sculptures by Gustav Vigeland, open 24/7. Tram #12 to Vigelandsparken, or any metro line to Majorstuen + 5-min walk.", mapQuery: "Vigeland Park, Oslo" },
   ]},
   { date: "2026-06-22", city: "Bergen", title: "Norway in a Nutshell — Fjord Crossing", blocks: [
-    { time: "6:25 AM", icon: "train", title: "The Bergen Railway — Oslo → Myrdal", resId: "trainBergenRailway" },
-    { time: "12:06 PM", icon: "train", title: "The Flåm Railway — Myrdal → Flåm", resId: "trainFlamRailway" },
-    { time: "1:15 PM", icon: "tour", title: "Stegastein Viewpoint — Private Tour", resId: "tourStegastein" },
+    { time: "6:25 AM", icon: "train", title: "The Bergen Railway — Oslo → Myrdal", resId: "trainBergenRailway", blurb: "One of the world's most scenic train rides — across Norway's high mountain plateau." },
+    { time: "12:06 PM", icon: "train", title: "The Flåm Railway — Myrdal → Flåm", resId: "trainFlamRailway", blurb: "One of the steepest railways on earth — a dramatic 3,000-ft descent, with a photo stop at Kjosfossen waterfall." },
+    { time: "1:15 PM", icon: "tour", title: "Stegastein Viewpoint — Private Tour", resId: "tourStegastein", blurb: "A platform 2,000+ feet above the Aurlandsfjord — higher than the World Trade Center." },
     { time: "2:35 PM", icon: "activity", title: "Aurland Shoe Factory", detail: "Home of the original penny loafer, created by shoemaker Nils Tveranger — watch the craftsmen at work.", mapQuery: "Aurland Shoe Factory" },
-    { time: "3:30 PM", icon: "ferry", title: "Fjord Cruise — Flåm → Bergen", resId: "cruiseSognefjord" },
-    { time: "8:45 PM", icon: "hotel", title: "Check in — Hotel Admiral", resId: "hotelBergen" },
+    { time: "3:30 PM", icon: "ferry", title: "Fjord Cruise — Flåm → Bergen", resId: "cruiseSognefjord", blurb: "Into the UNESCO-listed Nærøyfjord — Norway's narrowest and most dramatic fjord." },
+    { time: "8:45 PM", icon: "hotel", title: "Check in — Hotel Admiral", resId: "hotelBergen", blurb: "Journey's end for the day — a harbor-view room looking out over Bryggen." },
   ]},
   { date: "2026-06-23", city: "Bergen", title: "Bryggen & the Fish Market", blocks: [
-    { time: "9:50 AM", icon: "tour", title: "Bergen History Walking Tour", resId: "tourBergenHistory" },
+    { time: "9:50 AM", icon: "tour", title: "Bergen History Walking Tour", resId: "tourBergenHistory", blurb: "A walk through Bergen's Hanseatic past, starting right at the fortress gate." },
     { time: "Afternoon", icon: "explore", title: "Bryggen Wharf & Fish Market", detail: "UNESCO World Heritage wooden Hanseatic League trading houses. Fisketorget fish market — 800 years of continuous use.", mapQuery: "Bryggen, Bergen" },
     { time: "After 5 PM", icon: "activity", title: "Mt. Fløyen Funicular", detail: "Fløibanen funicular to the summit — panoramic views over the city and fjords. Go after 5 PM once the cruise ships leave.", mapQuery: "Floibanen, Bergen" },
   ]},
@@ -262,7 +262,7 @@ const DAYS = [
   ]},
   { date: "2026-06-25", city: "Departure", title: "Fly Home", blocks: [
     { time: "12:00 PM", icon: "activity", title: "Leave for Bergen Airport", detail: "Bybanen Light Rail (Line 1), 50 min, $4.50 — or Flybussen express bus, 20 min, $13.80 booked ahead / $16.50 on board." },
-    { time: "3:20 PM", icon: "flight", title: "Depart Bergen → Reykjavík → Washington", resId: "flightHome" },
+    { time: "3:20 PM", icon: "flight", title: "Depart Bergen → Reykjavík → Washington", resId: "flightHome", blurb: "Homeward bound — Bergen to Reykjavík to Washington, with an hour to spare in the Saga Lounge." },
   ]},
 ];
 

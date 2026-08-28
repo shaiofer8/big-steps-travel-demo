@@ -46,12 +46,14 @@
   });
 
   function ticket(block) {
+    const mapLink = block.mapQuery ? `<a class="plan-maplink" href="${mapsUrl(block.mapQuery)}" target="_blank" rel="noopener">Open in Maps ↗</a>` : "";
     if (!block.resId) {
-      return block.detail ? `<p class="plan-detail">${block.detail}</p>${block.mapQuery ? `<a class="plan-maplink" href="${mapsUrl(block.mapQuery)}" target="_blank" rel="noopener">Open in Maps ↗</a>` : ""}` : (block.mapQuery ? `<a class="plan-maplink" href="${mapsUrl(block.mapQuery)}" target="_blank" rel="noopener">Open in Maps ↗</a>` : "");
+      return `${block.detail ? `<p class="plan-detail">${block.detail}</p>` : ""}${mapLink}`;
     }
     const r = RESERVATIONS[block.resId];
     const group = typeGroup(r.type);
     return `
+      ${block.blurb ? `<p class="plan-detail">${block.blurb}</p>` : ""}
       <button class="boarding-pass restype-${group}" data-res="${block.resId}">
         <span class="bp-icon">${iconSvg(block.icon)}</span>
         <span class="bp-text">
