@@ -2,7 +2,7 @@
 // journal instead of an app-with-tabs — city by city, with reservations
 // woven in as "boarding pass" tickets right where they happen.
 (function () {
-  const { TRIP, RESERVATIONS, DAYS, EXPLORE, INFO } = window.TRIP_DATA;
+  const { TRIP, RESERVATIONS, DAYS, EXPLORE, INFO, COUNTRIES, COUNTRY_FLAGS } = window.TRIP_DATA;
 
   const app = document.getElementById("app");
   const sheet = document.getElementById("detailSheet");
@@ -10,7 +10,22 @@
   const panel = document.getElementById("panel");
   const panelBody = document.getElementById("panelBody");
 
+  // Brand mark — same glyph as the favicon, reused here as the small logo
+  // at the top of the intro page (Steve's ask: "not very large but visible").
+  const LOGO_SVG = `<svg viewBox="0 0 32 32" width="42" height="42" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1a1a1a"/><path d="M8 22 L14 22 L14 17 L20 17 L20 12 L24 12" stroke="#e8b95e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  // Display-only renaming for the two synthetic travel-day groups (Steve's
+  // ask: "In Flight" -> "Departure", "Departure" -> "Return"). The underlying
+  // data keys (group.city) are left as-is so classic/ and the root demo,
+  // which share this same data.js, are unaffected.
+  function displayCity(city) {
+    if (city === "In Flight") return "Departure";
+    if (city === "Departure") return "Return";
+    return city;
+  }
+
   function mapsUrl(q) { return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`; }
+  function tripadvisorUrl(q) { return `https://www.tripadvisor.com/Search?q=${encodeURIComponent(q)}`; }
   function fmtDate(iso) {
     const d = new Date(iso + "T00:00:00");
     return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
@@ -36,13 +51,15 @@
   }
 
   // -----------------------------------------------------------------
-  // Group DAYS into contiguous city stays, in order.
+  // Group DAYS into contiguous city stays, in order. Each entry keeps its
+  // original DAYS index (globalIndex) so we can render "Trip - day X of N"
+  // alongside "City - day X of N" (Steve's countdown-line ask).
   // -----------------------------------------------------------------
   const groups = [];
   DAYS.forEach((d, i) => {
     const prev = groups[groups.length - 1];
-    if (prev && prev.city === d.city) prev.days.push(d);
-    else groups.push({ city: d.city, days: [d] });
+    if (prev && prev.city === d.city) prev.days.push({ day: d, globalIndex: i });
+    else groups.push({ city: d.city, days: [{ day: d, globalIndex: i }] });
   });
 
   function ticket(block) {
@@ -81,16 +98,23 @@
     const info = INFO[group.city] || {};
     const img = info.cityImage || (EXPLORE[group.city] && EXPLORE[group.city][0] && EXPLORE[group.city][0].img) || TRIP.heroImage;
     const anchor = `city-${idx}`;
+    const cityLabel = displayCity(group.city);
+    const country = COUNTRIES[group.city];
 
     const badges = info.stay
       ? `<div class="city-badges"><span>${info.stay}</span><span>${info.weather}</span>${info.hoursAheadDC ? `<span>${info.hoursAheadDC}</span>` : ""}</div>`
-      : `<div class="city-badges"><span>Day trip</span>${info.weather ? `<span>${info.weather}</span>` : ""}</div>`;
+      : `<div class="city-badges"><span>Travel day</span>${info.weather ? `<span>${info.weather}</span>` : ""}</div>`;
 
-    const planHtml = group.days.map((d) => `
+    const planHtml = group.days.map((entry, ci) => {
+      const d = entry.day;
+      const countdown = `${cityLabel} – day ${ci + 1} of ${group.days.length} · Trip – day ${entry.globalIndex + 1} of ${DAYS.length}`;
+      return `
       <div class="plan-day">
         <div class="plan-day-head"><span class="plan-date">${fmtDate(d.date)}</span><span class="plan-day-title">${d.title}</span></div>
+        <div class="plan-countdown mono">${countdown}</div>
         ${d.blocks.map((b) => planRow(b)).join("")}
-      </div>`).join("");
+      </div>`;
+    }).join("");
 
     const sites = (EXPLORE[group.city] || []).map((p) => `
       <a class="site-tile" href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener">
@@ -103,7 +127,11 @@
     const foodCol = info.food ? `
       <div class="guide-col">
         <h4>Food &amp; Drink</h4>
-        <ul>${info.food.map((f) => `<li><b>${f.name}</b> — ${f.desc}</li>`).join("")}</ul>
+        <ul>${info.food.map((f) => `
+          <li>
+            <b>${f.name}</b> — ${f.desc}
+            <span class="food-links"><a href="${mapsUrl(f.name + ", " + group.city)}" target="_blank" rel="noopener">Maps</a> · <a href="${tripadvisorUrl(f.name + " " + group.city)}" target="_blank" rel="noopener">TripAdvisor</a></span>
+          </li>`).join("")}</ul>
       </div>` : "";
     const transportCol = info.transportTips ? `
       <div class="guide-col">
@@ -118,7 +146,7 @@
           <div class="city-band-fade"></div>
           <div class="wrap city-band-content">
             <p class="city-eyebrow">Stop ${idx + 1} of ${groups.length}</p>
-            <h2>${group.city}</h2>
+            <h2>${cityLabel}${country ? `<span class="city-country-inline">, ${country}</span>` : ""}</h2>
             ${badges}
           </div>
         </div>
@@ -126,34 +154,54 @@
           <h3 class="section-label">The Plan</h3>
           <div class="plan">${planHtml}</div>
 
-          ${sites ? `<h3 class="section-label">Sites &amp; Things To Do</h3><div class="site-grid">${sites}</div>` : ""}
+          ${sites ? `<h3 class="section-label">Add on Options of Things to Do &amp; See</h3><div class="site-grid">${sites}</div>` : ""}
 
-          ${(foodCol || transportCol) ? `<h3 class="section-label">Before You Go</h3><div class="guide-grid">${foodCol}${transportCol}</div>` : ""}
+          ${(foodCol || transportCol) ? `<h3 class="section-label">Tips &amp; General Guidance</h3><div class="guide-grid">${foodCol}${transportCol}</div>` : ""}
         </div>
       </section>`;
   }
 
   function render() {
+    // Countries visited, in first-appearance order, each with its flag —
+    // Steve's ask: "countries being visited with the country flags right
+    // after the names."
+    const seenCountries = [];
+    groups.forEach((g) => {
+      const c = COUNTRIES[g.city];
+      if (c && !seenCountries.includes(c)) seenCountries.push(c);
+    });
+    const countriesLine = seenCountries.map((c) => `${c} ${COUNTRY_FLAGS[c] || ""}`).join(" · ");
+
     const hero = `
       <section class="hero">
         <img src="${TRIP.heroImage}" alt="" class="hero-img">
         <div class="hero-fade"></div>
         <div class="wrap hero-content">
-          <p class="hero-eyebrow">${TRIP.brand.name} · A Travel Journal</p>
-          <h1>${TRIP.title}</h1>
-          <p class="hero-sub">${TRIP.subtitle} — ${TRIP.dateRange}</p>
-          <p class="hero-quote">“${TRIP.brand.tagline}”</p>
+          <div class="hero-logo">${LOGO_SVG}</div>
+          <p class="hero-slogan">${TRIP.brand.tagline}</p>
+          <h1 class="hero-client">${TRIP.clientTitle}</h1>
+          <p class="hero-dates">${TRIP.dateRange}</p>
+          <p class="hero-countries">${countriesLine}</p>
         </div>
       </section>`;
 
-    app.innerHTML = hero + groups.map((g, i) => citySection(g, i)).join("") + `
+    const quickLinks = `
+      <section class="wrap quick-links">
+        <button class="pill-btn" id="openReservations">Reservation Links/Info</button>
+        <button class="pill-btn" id="openMap">Google Map Links</button>
+      </section>`;
+
+    app.innerHTML = hero + groups.map((g, i) => citySection(g, i)).join("") + quickLinks + `
       <footer class="site-footer">
         <div class="wrap">${TRIP.brand.name} — every reservation, every stop, in one place.</div>
       </footer>`;
 
     // side rail
     const rail = document.getElementById("cityRail");
-    rail.innerHTML = groups.map((g, i) => `<a href="#city-${i}" data-i="${i}">${g.city}</a>`).join("");
+    rail.innerHTML = groups.map((g, i) => `<a href="#city-${i}" data-i="${i}">${displayCity(g.city)}</a>`).join("");
+
+    document.getElementById("openReservations").addEventListener("click", openReservationsPanel);
+    document.getElementById("openMap").addEventListener("click", openMapPanel);
 
     wireResChips();
     wireRail();
@@ -259,8 +307,9 @@
       </div>`;
     panel.showModal();
   }
-  document.getElementById("openReservations").addEventListener("click", openReservationsPanel);
-  document.getElementById("openMap").addEventListener("click", openMapPanel);
+  // openReservations/openMap buttons now live inside the rendered content
+  // (moved below the Return section per Steve's ask), so their listeners
+  // are wired inside render() instead of here at load time.
   document.getElementById("panelClose").addEventListener("click", () => panel.close());
   panel.addEventListener("click", (e) => { if (e.target === panel) panel.close(); });
 

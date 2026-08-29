@@ -35,24 +35,27 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .pill-btn{border:1px solid var(--ink);border-radius:999px;padding:8px 16px;font-weight:600;font-size:.84rem;color:var(--ink)}
 .pill-btn:hover{background:var(--ink);color:var(--paper)}
 
-/* Side rail (desktop) */
+/* Side rail (desktop) — larger point size per Steve's ask */
 .city-rail{
   position:fixed;top:50%;right:22px;transform:translateY(-50%);z-index:40;
-  display:flex;flex-direction:column;gap:10px;text-align:right;
+  display:flex;flex-direction:column;gap:12px;text-align:right;
 }
-.city-rail a{font-size:.76rem;font-weight:600;color:var(--ink-mute);text-decoration:none;padding-right:14px;border-right:2px solid transparent;transition:color .2s ease,border-color .2s ease}
+.city-rail a{font-size:.94rem;font-weight:700;color:var(--ink-mute);text-decoration:none;padding-right:14px;border-right:2px solid transparent;transition:color .2s ease,border-color .2s ease}
 .city-rail a.active{color:var(--gold-deep);border-color:var(--gold)}
 @media (max-width:980px){ .city-rail{display:none} }
 
-/* Hero */
-.hero{position:relative;height:78vh;min-height:460px;overflow:clip;color:#fff}
+/* Hero — intro page: centered logo, slogan, client name, dates, countries
+   with flags (Steve's full intro-page spec, 2026-08-29). */
+.hero{position:relative;height:82vh;min-height:520px;overflow:clip;color:#fff}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero-fade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(26,26,26,.3) 0%, rgba(26,26,26,.62) 55%, rgba(26,26,26,.93) 100%)}
-.hero-content{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px}
-.hero-eyebrow{font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.hero-content h1{font-size:clamp(2.2rem,6vw,4rem);margin-top:14px;line-height:1.05}
-.hero-sub{margin-top:14px;font-size:1.05rem;color:#e8e4d8}
-.hero-quote{margin-top:22px;font-family:var(--display);font-style:italic;font-size:1.05rem;color:var(--gold-soft)}
+.hero-fade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(26,26,26,.4) 0%, rgba(26,26,26,.66) 55%, rgba(26,26,26,.93) 100%)}
+.hero-content{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-block:64px;gap:0}
+.hero-logo{display:flex;justify-content:center}
+.hero-logo svg{border-radius:9px;box-shadow:0 4px 14px -4px rgba(0,0,0,.5)}
+.hero-slogan{margin-top:14px;font-family:var(--display);font-style:italic;font-size:1rem;color:var(--gold-soft)}
+.hero-client{margin-top:28px;font-size:clamp(1.7rem,4.6vw,3rem);line-height:1.15;max-width:20ch;color:#fff}
+.hero-dates{margin-top:16px;font-size:1.08rem;color:#e8e4d8;font-weight:500}
+.hero-countries{margin-top:12px;font-size:.86rem;letter-spacing:.03em;color:#cfc9b8}
 
 /* City section */
 .city-section{margin-top:0}
@@ -62,6 +65,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .city-band-content{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:36px}
 .city-eyebrow{font-weight:700;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
 .city-band-content h2{font-size:clamp(1.8rem,4.4vw,3rem);margin-top:8px;color:#fff}
+.city-country-inline{font-family:var(--sans);font-weight:500;font-size:.5em;color:#e8e4d8;vertical-align:2%}
 .city-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .city-badges span{font-family:var(--mono);font-size:.76rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(6px);border-radius:999px;padding:6px 13px;color:#fff}
 
@@ -69,11 +73,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .section-label{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-top:44px;margin-bottom:18px}
 .city-body>.section-label:first-child{margin-top:0}
 
-/* Plan (day-by-day within a city) */
-.plan-day{margin-bottom:30px}
-.plan-day-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+/* Plan (day-by-day within a city) — each day boxed and separated, like the
+   Continuation template (Steve's ask). */
+.plan-day{margin-bottom:22px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:0 8px 20px -16px rgba(26,26,26,.2)}
+.plan-day-head{display:flex;align-items:baseline;gap:10px;padding-bottom:6px}
 .plan-date{font-family:var(--display);font-weight:600;font-size:1.05rem}
 .plan-day-title{font-size:.86rem;color:var(--ink-mute)}
+.plan-countdown{font-size:.72rem;color:var(--gold-deep);padding-bottom:10px;margin-bottom:8px;border-bottom:1px solid var(--line)}
 .plan-row{display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;padding-block:10px}
 .plan-time{font-size:.78rem;color:var(--ink-mute);padding-top:3px}
 .plan-main{min-width:0}
@@ -82,17 +88,20 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .plan-maplink{display:inline-block;margin-top:6px;font-size:.8rem;font-weight:700;color:var(--gold-deep);text-decoration:none}
 
 /* Boarding-pass ticket — the reservation-detail affordance, styled like a
-   perforated ticket stub instead of a plain chip. Color-coded by type. */
+   perforated ticket stub instead of a plain chip. Fully color-framed by
+   type (Steve's ask: "fully frame the circle, not just a bar on the left"). */
 .boarding-pass{
   margin-top:8px;display:flex;align-items:center;gap:12px;width:100%;max-width:420px;
-  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;
+  background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 14px;
   position:relative;text-align:left;box-shadow:0 6px 16px -10px rgba(26,26,26,.25);
 }
-.boarding-pass::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:12px 0 0 12px;background:var(--c-tour)}
-.boarding-pass.restype-hotel::before{background:var(--c-hotel)}
-.boarding-pass.restype-transport::before{background:var(--c-transport)}
-.boarding-pass.restype-tour::before{background:var(--c-tour)}
-.bp-icon{width:30px;height:30px;border-radius:8px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex:0 0 auto;color:var(--ink-soft)}
+.boarding-pass.restype-hotel{border-color:var(--c-hotel);background:var(--c-hotel-soft)}
+.boarding-pass.restype-transport{border-color:var(--c-transport);background:var(--c-transport-soft)}
+.boarding-pass.restype-tour{border-color:var(--c-tour);background:var(--c-tour-soft)}
+.bp-icon{width:30px;height:30px;border-radius:50%;background:var(--card);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;flex:0 0 auto;color:var(--ink-soft)}
+.boarding-pass.restype-hotel .bp-icon{border-color:var(--c-hotel-deep);color:var(--c-hotel-deep)}
+.boarding-pass.restype-transport .bp-icon{border-color:var(--c-transport-deep);color:var(--c-transport-deep)}
+.boarding-pass.restype-tour .bp-icon{border-color:var(--c-tour-deep);color:var(--c-tour-deep)}
 .bp-icon svg{width:16px;height:16px}
 .bp-text{display:flex;flex-direction:column;flex:1;min-width:0}
 .bp-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-mute);font-weight:700}
@@ -112,6 +121,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .guide-col h4{font-size:1rem;margin-bottom:8px}
 .guide-col ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px}
 .guide-col li{font-size:.87rem;color:var(--ink-soft)}
+.food-links{margin-left:6px;white-space:nowrap}
+.food-links a{font-size:.76rem;font-weight:700;color:var(--gold-deep);text-decoration:none}
+.food-links a:hover{text-decoration:underline}
+
+/* Quick links — Reservations/Map, moved below the last (Return) section
+   per Steve's ask, renamed "Reservation Links/Info" / "Google Map Links". */
+.quick-links{display:flex;justify-content:center;gap:14px;padding-block:34px 6px;flex-wrap:wrap}
+.quick-links .pill-btn{border:1px solid var(--ink);border-radius:999px;padding:11px 22px;font-weight:600;font-size:.9rem;color:var(--ink)}
+.quick-links .pill-btn:hover{background:var(--ink);color:var(--paper)}
 
 .site-footer{padding-block:40px;text-align:center;color:var(--ink-mute);font-size:.85rem;border-top:1px solid var(--line);margin-top:20px}
 

@@ -4,13 +4,27 @@
 // the Trip / Reservations / Explore / Map / Info surfaces.
 
 const TRIP = {
-  brand: { name: "Big Steps Travel", tagline: "Your itinerary, ready for the road." },
+  brand: { name: "Big Steps Travel", tagline: "Every Great Journey Begins with BIG Steps™" },
   title: "Nordic & Baltic Escape",
+  clientTitle: "The Carlton Family Scandinavian/Baltic Travel Journal",
   subtitle: "Finland · Estonia · Sweden · Norway",
   dateRange: "June 9 – June 25, 2026",
   travelers: 2,
   heroImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Suomenlinna.jpg/960px-Suomenlinna.jpg",
 };
+
+// City → country, and country → flag emoji, used by the magazine/New Concept
+// format for the "Helsinki, Finland" city-page subheads and the hero's
+// country-list-with-flags line. "In Flight"/"Departure" are synthetic
+// travel-day groupings, not real cities, so they carry no country.
+const COUNTRIES = {
+  Helsinki: "Finland",
+  Tallinn: "Estonia",
+  Stockholm: "Sweden",
+  Oslo: "Norway",
+  Bergen: "Norway",
+};
+const COUNTRY_FLAGS = { Finland: "🇫🇮", Estonia: "🇪🇪", Sweden: "🇸🇪", Norway: "🇳🇴" };
 
 // ---------------------------------------------------------------------------
 // RESERVATIONS — the single source of truth for every booked thing. Each has
@@ -403,4 +417,4 @@ const INFO = {
   },
 };
 
-window.TRIP_DATA = { TRIP, RESERVATIONS, DAYS, EXPLORE, INFO };
+window.TRIP_DATA = { TRIP, RESERVATIONS, DAYS, EXPLORE, INFO, COUNTRIES, COUNTRY_FLAGS };
