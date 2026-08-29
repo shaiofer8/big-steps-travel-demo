@@ -37,9 +37,9 @@ Replied 2026-08-29 confirming we'll build his edits into `/magazine/`. **Not yet
 - Other agencies: said there's real positive interest, no specifics given (don't reveal the "5 planners pilot" framing to Steve)
 - No LinkedIn/social — framed as "looking for the right partner", not self-promotion
 
-## Payment (open question as of 2026-08-29)
+## Payment
 
-Shai is PayPal-blocked. Need a way for a US-based client to pay a flat per-itinerary fee ($150) to an Israeli individual. Candidates: Payoneer (popular for Israeli freelancers, gives a US routing/account number so client pays like a domestic transfer), Wise (low-fee international, similar USD receiving account option). Not yet decided/set up.
+Shai is PayPal-blocked. Decided 2026-08-29: **Payoneer** — sign up at payoneer.com (KYC required), get a "Global Payment Service" USD receiving account (US routing + account number), send those details or a Payoneer invoice link to Steve so he pays like a domestic US transfer. Not yet set up on Shai's side.
 
 ## Next step
 
