@@ -6,7 +6,8 @@ No public office address; likely DC-metro area (his own timezone example used "7
 ## Status (2026-08-29)
 
 Steve picked **New Concept** (`/magazine/`) as the direction to build on, over Classic and Continuation.
-Replied 2026-08-29 confirming we'll build his edits into `/magazine/`. **Not yet implemented** — waiting on his go-ahead / next reply before starting the rebuild.
+Replied 2026-08-29 confirming we'll build his edits into `/magazine/`; he approved ("Yes, let's see what an updated NC looks like").
+**Full edit list below implemented and pushed** (commit `8e76547`), verified with a headless Playwright pass (zero console/page errors, all renames/links/countdowns confirmed rendering correctly). Live at the same URL: `https://shaiofer8.github.io/big-steps-travel-demo/magazine/`.
 
 ## Steve's requested edits — New Concept (`/magazine/`)
 
