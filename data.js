@@ -8,7 +8,7 @@ const TRIP = {
   brand: { name: "Big Steps Travel", tagline: "Every Great Journey Begins with BIG Steps™" },
   title: "Nordic & Baltic Escape",
   // B3: three separate hero heading lines
-  clientName: "Carlton Family",
+  clientName: "The Carlton Family",
   tripName: "Scandinavian/Baltic Escape",
   journalLabel: "Travel Journal",
   // legacy single field kept for backward compat
@@ -202,6 +202,10 @@ const DAYS = [
       { label: "Helsinki Airport (HEL) — Finavia", url: "https://www.finavia.fi/en/airports/helsinki-airport" },
       { label: "myhelsinki.fi — Official Travel Guide", url: "https://www.myhelsinki.fi/" },
       { label: "Helsinki Walking Tour 4K Video", url: "https://www.youtube.com/watch?v=ESFPoxepyP4" },
+      { label: "HSL App — Public Transport Step-by-Step Guide (Video)", url: "https://www.youtube.com/watch?v=A_bGZomICVE" },
+      { label: "Helsinki Card — Sightseeing & Excursions (Stromma)", url: "https://www.stromma.com/en-fi/helsinki/city-pass/helsinki-card/" },
+      { label: "Suomenlinna Sea Fortress — Official Website", url: "https://suomenlinna.fi/en/" },
+      { label: "Stromma Ferry Departure Point — Market Square", url: "https://www.stromma.com/en-fi/helsinki/customer-service-contact/find-us/market-square/" },
     ],
     blocks: [
       { time: "9:40 AM", icon: "flight", title: "Connect FRA → HEL", resId: "flightOut", blurb: "A short connection through Frankfurt, then on into Finland." },
@@ -365,7 +369,9 @@ const EXPLORE = {
   Helsinki: [
     // Inline day tiles
     { name: "Suomenlinna Sea Fortress", tag: "UNESCO Site", day: "2026-06-10",
-      desc: "15-min HSL ferry from Market Square (€3 one way, HSL AB ticket, runs 24h). Island sea fortress — official website: The official website of Suomenlinna.",
+      desc: "15-min HSL ferry from Market Square (€3 one way, HSL AB ticket, runs 24h). Island sea fortress.",
+      url: "https://suomenlinna.fi/en/",
+      ferryUrl: "https://www.stromma.com/en-fi/helsinki/customer-service-contact/find-us/market-square/",
       img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Suomenlinna.jpg/960px-Suomenlinna.jpg", mapQuery: "Suomenlinna, Helsinki" },
     { name: "Amos Rex Museum", tag: "Modern Art", day: "2026-06-10",
       desc: "Very cool modern experimental art underground museum. €22, 11 AM–8 PM.",
@@ -512,6 +518,11 @@ const INFO = {
       "A day pass works on all city transport — buy it in the HSL app (shows a live map when you search a route).",
       "Tram #2 is a great sightseeing loop — passes Old Market Hall, Market Square, Senate Square, Amos Rex and Kamppi.",
       "Uber and Bolt both operate normally in Helsinki.",
+    ],
+    // Steve cited these explicitly in Email 3 + Email 4 as clickable transport links
+    transportLinks: [
+      { label: "HSL App — Public Transport in Finland (Step-by-Step Guide)", url: "https://www.youtube.com/watch?v=A_bGZomICVE" },
+      { label: "Helsinki Card — Sightseeing & Excursions (Stromma)", url: "https://www.stromma.com/en-fi/helsinki/city-pass/helsinki-card/" },
     ],
     cityImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Helsinki_Senate_Square_and_Helsinki_Cathedral_in_May_2026.jpg/960px-Helsinki_Senate_Square_and_Helsinki_Cathedral_in_May_2026.jpg",
     food: [

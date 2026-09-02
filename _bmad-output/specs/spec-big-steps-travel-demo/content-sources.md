@@ -90,3 +90,30 @@ No Stress Bar (cocktails) · Sjoboden (live music/pub on Bryggen) · Det Lille K
 
 ### Helsinki Food Addition
 Cheri Chou (exciting pastries) — was missing from data.js
+
+---
+
+## Transport Links — Helsinki (Email 3 + Email 4, point of use)
+
+Both links were shown by Steve in Email 3 and repeated in Email 4 as "still missing."  
+Added to `INFO.Helsinki.transportLinks[]` AND to `DAYS["2026-06-10"].links[]` (arrival day, at point of use).
+
+| Label | URL |
+|---|---|
+| HSL App — Public Transport in Finland Step-by-Step Guide (Video) | https://www.youtube.com/watch?v=A_bGZomICVE |
+| Helsinki Card — Sightseeing & Excursions (Stromma) | https://www.stromma.com/en-fi/helsinki/city-pass/helsinki-card/ |
+
+**Rule:** Both links must appear at the Helsinki arrival day (6/10) as inline links — rendered by F1 (links[] array). Also rendered in INFO.Helsinki transport tips section (F8).
+
+---
+
+## Suomenlinna — URLs added to EXPLORE entry (Email 3)
+
+Steve explicitly showed these in his Email 3 examples as links to add at point of use.
+
+| Label | URL |
+|---|---|
+| Suomenlinna Sea Fortress — Official Website | https://suomenlinna.fi/en/ |
+| Stromma Ferry Departure Point — Market Square | https://www.stromma.com/en-fi/helsinki/customer-service-contact/find-us/market-square/ |
+
+Both added to `DAYS["2026-06-10"].links[]` AND `EXPLORE.Helsinki` Suomenlinna entry has `url:` and `ferryUrl:` fields.
