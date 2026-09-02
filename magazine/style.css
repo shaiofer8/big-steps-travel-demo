@@ -157,3 +157,58 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .panel-list{display:flex;flex-direction:column;gap:8px}
 .map-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 15px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:inherit;font-size:.86rem}
 .map-row .go{font-size:.78rem;font-weight:700;color:var(--gold-deep);white-space:nowrap}
+
+/* B6: Emoji flag rendering on Windows Chrome */
+.hero-countries,.city-badges,.country-flags{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",var(--sans)}
+
+/* B1: Real BST logo img */
+.hero-logo-img{height:60px;max-width:220px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
+.hero-logo-fallback{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--gold-soft);letter-spacing:.04em}
+
+/* B3: 3-line hero heading */
+.hero-heading{margin-top:28px;text-align:center}
+.hero-client-name{font-family:var(--display);font-size:clamp(1.7rem,4.2vw,2.8rem);font-weight:700;line-height:1.1;color:#fff}
+.hero-trip-name{font-family:var(--display);font-size:clamp(1.1rem,2.6vw,1.8rem);font-weight:600;font-style:italic;color:var(--gold-soft);margin-top:6px}
+.hero-journal-label{font-family:var(--sans);font-size:.9rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#cfc9b8;margin-top:8px}
+
+/* C3+C4: city rail heading + action buttons */
+.rail-heading{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);text-decoration:underline;text-underline-offset:3px;margin:0 0 10px;padding-right:14px}
+.rail-actions{display:flex;flex-direction:column;gap:6px;margin-top:18px;padding-right:14px}
+.rail-btn{font-size:.76rem;font-weight:600;border-radius:8px;padding:7px 10px;cursor:pointer;text-align:left;border:none;white-space:nowrap}
+.rail-btn--primary{background:var(--gold);color:#1a1a1a}
+.rail-btn--primary:hover{background:var(--gold-deep);color:#fff}
+.rail-btn--secondary{background:transparent;border:1px solid var(--ink-mute);color:var(--ink)}
+.rail-btn--secondary:hover{background:var(--ink);color:var(--paper)}
+
+/* F1: inline day-links bar */
+.day-links-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.day-link{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;font-weight:600;color:var(--gold-deep);text-decoration:none;background:var(--gold-soft);border:1px solid var(--gold);border-radius:6px;padding:4px 10px;transition:background .15s}
+.day-link:hover{background:var(--gold);color:#1a1a1a}
+
+/* F2: inline EXPLORE tiles inside day blocks (smaller) */
+.site-grid--inline{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.site-grid--inline .site-tile img{height:110px}
+
+/* F7: food cuisine label */
+.food-cuisine{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gold-deep);background:var(--gold-soft);border:1px solid var(--gold);border-radius:4px;padding:1px 6px;margin-right:4px;vertical-align:1px}
+
+/* F8: clickable transport links */
+.transport-link{font-weight:600;color:var(--gold-deep);text-decoration:none}
+.transport-link:hover{text-decoration:underline}
+
+/* C5: mobile bottom navigation bar */
+#mobile-bar{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:80;
+  background:var(--card);border-top:1px solid var(--line);
+  box-shadow:0 -4px 16px -8px rgba(26,26,26,.2);
+  padding:10px 16px 12px;
+}
+@media (max-width:980px){#mobile-bar{display:block}}
+@media (max-width:980px){body{padding-bottom:100px}}
+.mobile-bar-chips{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:6px}
+.mobile-bar-chips::-webkit-scrollbar{display:none}
+.mobile-chip{flex:0 0 auto;font-size:.78rem;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none;white-space:nowrap}
+.mobile-chip:hover,.mobile-chip.active{background:var(--gold-soft);border-color:var(--gold);color:var(--gold-deep)}
+.mobile-bar-actions{display:flex;gap:8px;margin-top:6px}
+.mobile-bar-actions .rail-btn{flex:1;text-align:center;font-size:.78rem;padding:7px 8px;border-radius:8px}

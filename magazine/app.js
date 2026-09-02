@@ -10,9 +10,9 @@
   const panel = document.getElementById("panel");
   const panelBody = document.getElementById("panelBody");
 
-  // Brand mark — same glyph as the favicon, reused here as the small logo
-  // at the top of the intro page (Steve's ask: "not very large but visible").
-  const LOGO_SVG = `<svg viewBox="0 0 32 32" width="42" height="42" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1a1a1a"/><path d="M8 22 L14 22 L14 17 L20 17 L20 12 L24 12" stroke="#e8b95e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  // B1: Real BST logo PNG (Steve's ask). Falls back to text badge if file not yet placed.
+  const LOGO_HTML = `<img src="assets/bst-logo.png" alt="Big Steps Travel" class="hero-logo-img"
+    onerror="this.outerHTML='<span class=hero-logo-fallback>Big Steps Travel</span>'">`;
 
   // Display-only renaming for the two synthetic travel-day groups (Steve's
   // ask: "In Flight" -> "Departure", "Departure" -> "Return"). The underlying
@@ -96,7 +96,8 @@
 
   function citySection(group, idx) {
     const info = INFO[group.city] || {};
-    const img = info.cityImage || (EXPLORE[group.city] && EXPLORE[group.city][0] && EXPLORE[group.city][0].img) || TRIP.heroImage;
+    const allExplore = EXPLORE[group.city] || [];
+    const img = info.cityImage || (allExplore[0] && allExplore[0].img) || TRIP.heroImage;
     const anchor = `city-${idx}`;
     const cityLabel = displayCity(group.city);
     const country = COUNTRIES[group.city];
@@ -105,18 +106,43 @@
       ? `<div class="city-badges"><span>${info.stay}</span><span>${info.weather}</span>${info.hoursAheadDC ? `<span>${info.hoursAheadDC}</span>` : ""}</div>`
       : `<div class="city-badges"><span>Travel day</span>${info.weather ? `<span>${info.weather}</span>` : ""}</div>`;
 
+    // F1 + F2: day loop — inline links + inline day-assigned EXPLORE tiles
     const planHtml = group.days.map((entry, ci) => {
       const d = entry.day;
       const countdown = `${cityLabel} – day ${ci + 1} of ${group.days.length} · Trip – day ${entry.globalIndex + 1} of ${DAYS.length}`;
+
+      // F1: day-level links rendered at point of use
+      const dayLinksHtml = (d.links || []).length
+        ? `<div class="day-links-bar">${d.links.map(l =>
+            `<a class="day-link" href="${l.url}" target="_blank" rel="noopener">🔗 ${l.label}</a>`
+          ).join("")}</div>`
+        : "";
+
+      // F2: inline tiles for activities assigned to this specific day
+      const dayTiles = allExplore.filter(e => e.day === d.date);
+      const dayTilesHtml = dayTiles.length
+        ? `<div class="site-grid site-grid--inline">${dayTiles.map(p => `
+            <a class="site-tile" href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener">
+              <img src="${p.img}" alt="${p.name}" loading="lazy">
+              <span class="tag">${p.tag}</span>
+              <span class="name">${p.name}</span>
+              <span class="desc">${p.desc}</span>
+            </a>`).join("")}</div>`
+        : "";
+
       return `
       <div class="plan-day">
         <div class="plan-day-head"><span class="plan-date">${fmtDate(d.date)}</span><span class="plan-day-title">${d.title}</span></div>
         <div class="plan-countdown mono">${countdown}</div>
         ${d.blocks.map((b) => planRow(b)).join("")}
+        ${dayLinksHtml}
+        ${dayTilesHtml}
       </div>`;
     }).join("");
 
-    const sites = (EXPLORE[group.city] || []).map((p) => `
+    // F6: Add-on Options grid — always shown for every city; only tiles WITHOUT a day: assignment
+    const addonTiles = allExplore.filter(e => !e.day);
+    const addonHtml = addonTiles.map((p) => `
       <a class="site-tile" href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener">
         <img src="${p.img}" alt="${p.name}" loading="lazy">
         <span class="tag">${p.tag}</span>
@@ -124,19 +150,28 @@
         <span class="desc">${p.desc}</span>
       </a>`).join("");
 
+    // F7: food with cuisine label pill
     const foodCol = info.food ? `
       <div class="guide-col">
         <h4>Food &amp; Drink</h4>
         <ul>${info.food.map((f) => `
           <li>
-            <b>${f.name}</b> — ${f.desc}
+            ${f.cuisine ? `<span class="food-cuisine">${f.cuisine}</span> ` : ""}<b>${f.name}</b>${f.desc ? ` — ${f.desc}` : ""}
             <span class="food-links"><a href="${mapsUrl(f.name + ", " + group.city)}" target="_blank" rel="noopener">Maps</a> · <a href="${tripadvisorUrl(f.name + " " + group.city)}" target="_blank" rel="noopener">TripAdvisor</a></span>
           </li>`).join("")}</ul>
       </div>` : "";
-    const transportCol = info.transportTips ? `
+
+    // F8: transportLinks (clickable URLs) + transportTips (plain text)
+    const transportLinksHtml = (info.transportLinks || []).map(l =>
+      `<li><a class="transport-link" href="${l.url}" target="_blank" rel="noopener">🔗 ${l.label}</a></li>`
+    ).join("");
+    const transportCol = (info.transportTips || info.transportLinks) ? `
       <div class="guide-col">
         <h4>Getting Around</h4>
-        <ul>${info.transportTips.map((t) => `<li>${t}</li>`).join("")}</ul>
+        <ul>
+          ${(info.transportTips || []).map((t) => `<li>${t}</li>`).join("")}
+          ${transportLinksHtml}
+        </ul>
       </div>` : "";
 
     return `
@@ -154,7 +189,8 @@
           <h3 class="section-label">The Plan</h3>
           <div class="plan">${planHtml}</div>
 
-          ${sites ? `<h3 class="section-label">Add on Options of Things to Do &amp; See</h3><div class="site-grid">${sites}</div>` : ""}
+          <h3 class="section-label">Add on Options of Things to Do &amp; See</h3>
+          <div class="site-grid">${addonHtml}</div>
 
           ${(foodCol || transportCol) ? `<h3 class="section-label">Tips &amp; General Guidance</h3><div class="guide-grid">${foodCol}${transportCol}</div>` : ""}
         </div>
@@ -177,9 +213,13 @@
         <img src="${TRIP.heroImage}" alt="" class="hero-img">
         <div class="hero-fade"></div>
         <div class="wrap hero-content">
-          <div class="hero-logo">${LOGO_SVG}</div>
+          <div class="hero-logo">${LOGO_HTML}</div>
           <p class="hero-slogan">${TRIP.brand.tagline}</p>
-          <h1 class="hero-client">${TRIP.clientTitle}</h1>
+          <div class="hero-heading">
+            <div class="hero-client-name">${TRIP.clientName}</div>
+            <div class="hero-trip-name">${TRIP.tripName}</div>
+            <div class="hero-journal-label">${TRIP.journalLabel}</div>
+          </div>
           <p class="hero-dates">${TRIP.dateRange}</p>
           <p class="hero-countries">${countriesLine}</p>
         </div>
@@ -196,12 +236,39 @@
         <div class="wrap">${TRIP.brand.name} — every reservation, every stop, in one place.</div>
       </footer>`;
 
-    // side rail
+    // C3+C4: side rail with heading "Click for Quick Search" + action buttons below Return
     const rail = document.getElementById("cityRail");
-    rail.innerHTML = groups.map((g, i) => `<a href="#city-${i}" data-i="${i}">${displayCity(g.city)}</a>`).join("");
+    rail.innerHTML = `
+      <h4 class="rail-heading">Click for Quick Search</h4>
+      ${groups.map((g, i) => `<a href="#city-${i}" data-i="${i}">${displayCity(g.city)}</a>`).join("")}
+      <div class="rail-actions">
+        <button class="rail-btn rail-btn--primary" id="openReservationsRail">📋 Reservation Links/Info</button>
+        <button class="rail-btn rail-btn--secondary" id="openMapRail">🗺️ Google Map Links</button>
+      </div>`;
 
     document.getElementById("openReservations").addEventListener("click", openReservationsPanel);
     document.getElementById("openMap").addEventListener("click", openMapPanel);
+    document.getElementById("openReservationsRail").addEventListener("click", openReservationsPanel);
+    document.getElementById("openMapRail").addEventListener("click", openMapPanel);
+
+    // C5: mobile bottom bar — fixed to viewport bottom, scrollable city chips + action buttons
+    let mobileBar = document.getElementById("mobile-bar");
+    if (!mobileBar) {
+      mobileBar = document.createElement("nav");
+      mobileBar.id = "mobile-bar";
+      mobileBar.setAttribute("aria-label", "City navigation");
+      document.body.appendChild(mobileBar);
+    }
+    mobileBar.innerHTML = `
+      <div class="mobile-bar-chips">
+        ${groups.map((g, i) => `<a class="mobile-chip" href="#city-${i}">${displayCity(g.city)}</a>`).join("")}
+      </div>
+      <div class="mobile-bar-actions">
+        <button class="rail-btn rail-btn--primary" id="openReservationsMobile">📋 Reservations</button>
+        <button class="rail-btn rail-btn--secondary" id="openMapMobile">🗺️ Map</button>
+      </div>`;
+    document.getElementById("openReservationsMobile").addEventListener("click", openReservationsPanel);
+    document.getElementById("openMapMobile").addEventListener("click", openMapPanel);
 
     wireResChips();
     wireRail();

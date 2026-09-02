@@ -641,8 +641,12 @@ const INFO = {
     stay: "2½ days / 3 nights · Mon 6/22 – Thu 6/25", hoursAheadDC: "6 hrs ahead of DC",
     weather: "~65°F day / 50°F night · rains ~200 days/yr (rainiest city in Europe) · sunrise 4:11 AM–11:09 PM (19 hrs)",
     transport: "Bergen Card (24h $42 / 48h $54): free public transport + museum discounts. Bybanen Light Rail to airport, 50 min, $4.50.",
+    transportLinks: [
+      { label: "Bergen Card — Official Website (24h $42 / 48h $54 · free transit + museums)", url: "https://en.visitbergen.com/bergen-card" },
+      { label: "SKYSS Ticket App — save up to 20% on bus & train", url: "https://www.skyss.no/en/tickets-and-prices/skyss-ticket-app/" },
+    ],
     transportTips: [
-      "Bergen Card (24h $42 / 48h $54): free public transport plus museum discounts. Get at Bergen Tourist info Center or en.visitbergen.com/bergen-card.",
+      "Bergen Card (24h $42 / 48h $54): free public transport plus museum discounts. Get at Bergen Tourist info Center.",
       "Download SKYSS ticket app (don't need if you have Bergen Card) — buy train and bus tickets, save up to 20%.",
       "Bybanen Light Rail (Line #1) to airport in 50 minutes, $4.50 — or Flybussen express, 20 minutes.",
       "The Old Town / Bryggen area is fully walkable — no transit needed day-to-day.",
