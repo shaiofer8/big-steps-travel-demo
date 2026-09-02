@@ -265,6 +265,11 @@ const DAYS = [
     ]},
 
   { date: "2026-06-15", city: "Stockholm", title: "Gamla Stan & Fika",
+    links: [
+      { label: "IceBar Stockholm — Book Tickets (Hellotickets)", url: "https://www.hellotickets.com/se/comprar-entradas-icebar-stockholm/p-1057" },
+      { label: "Stockholm Pass — 70+ Attractions (1–4 Days)", url: "https://stockholmpass.com/en/" },
+      { label: "Nobel Prize Museum — Plan Your Visit", url: "https://www.nobelprizemuseum.se/en/" },
+    ],
     blocks: [
       { time: "9:00 AM", icon: "tour", title: "Stockholm Full City — Multi Island", resId: "tourStockholmMultiIsland", blurb: "Gamla Stan cobblestone streets, medieval buildings, and historic sites, founded 1252. Meeting point: Skeppsbron 25, Gamla Stan." },
       { time: "Midday", icon: "food", title: "Fika in Gamla Stan", detail: "Traditional Swedish fika (coffee + pastry) at Systrarna Andersson. The Swedish art of Fika, pronounced \"fee-kuh\", is one of the country's most cherished customs — pause for coffee, cake, and relaxation." },
@@ -274,6 +279,11 @@ const DAYS = [
     ]},
 
   { date: "2026-06-16", city: "Stockholm", title: "Vasa Museum & ABBA",
+    links: [
+      { label: "ABBA The Museum — Tickets & Info (reservation required)", url: "https://abbathemuseum.com/en/" },
+      { label: "Skansen Open-Air Museum — Visit Info & Tickets", url: "https://www.skansen.se/en/" },
+      { label: "Gröna Lund — Brad Paisley Concert", url: "https://gronalund.com/en/events/concerts/" },
+    ],
     blocks: [
       { time: "10:00 AM", icon: "tour", title: "Vasa Museum Small-Group Tour", resId: "tourVasaMuseum", blurb: "The world's only surviving 17th-century warship — raised intact after 333 years underwater. One of the biggest cultural treasures in Sweden." },
       { time: "1:00 PM", icon: "activity", title: "Skansen — Open-Air Museum", detail: "Oldest open-air museum in the world — five centuries of Swedish life. Unique gardens, cafes, culturally significant buildings.", mapQuery: "Skansen, Stockholm" },
@@ -282,12 +292,20 @@ const DAYS = [
     ]},
 
   { date: "2026-06-17", city: "Stockholm", title: "Archipelago & Vikings",
+    links: [
+      { label: "Stockholm Archipelago Speedboat — Viator Booking", url: "https://www.viator.com/Stockholm/d752-ttd" },
+      { label: "Viking History Walking Tours — Viator Stockholm", url: "https://www.viator.com/search/Stockholm?text=viking+walking+tour" },
+    ],
     blocks: [
       { time: "9:30 AM", icon: "tour", title: "Stockholm Archipelago Speedboat", resId: "tourArchipelago", blurb: "Exploring the traditional summer getaway of locals on the Stockholm Peninsula, viewing historic sites and summer houses dating to the 17th century. Meeting point: Pier 19 (Kajplats 19), Strandvägen 20–28." },
       { time: "1:00 PM", icon: "tour", title: "Viking History Walking Tour", resId: "tourVikingWalk", blurb: "Meeting point: Stortorget in front of Nobel Museum. Arrive 10 minutes early." },
     ]},
 
   { date: "2026-06-18", city: "Stockholm", title: "Royal Palace & Metro Art",
+    links: [
+      { label: "Royal Palace Stockholm — Guided Tour Info & Tickets", url: "https://kungligaslotten.se/english/royal-palaces-and-sites/the-royal-palace/" },
+      { label: "SL Metro Art Map — Self-Guided Tour", url: "https://sl.se/en/in-english/travelling-with-sl/art-in-the-sl-network/" },
+    ],
     blocks: [
       { time: "11:45 AM", icon: "activity", title: "Royal Palace — 90 min Guided Tour", detail: "Stockholm Pass guided tour of opulent Royal Apartments, Treasury, and Royal Chapel.", mapQuery: "Royal Palace Stockholm" },
       { time: "12:15 PM", icon: "activity", title: "Changing of the Guard", detail: "Outer courtyard parade and band at 12:15 PM, takes 40 minutes. Band/guards march through central Stockholm to the palace starting at 11:45 AM — view from Skeppsbron water side of palace." },
@@ -335,6 +353,10 @@ const DAYS = [
     ]},
 
   { date: "2026-06-23", city: "Bergen", title: "Bryggen & the Fish Market",
+    links: [
+      { label: "Fløibanen Funicular — Book Online (roundtrip $15)", url: "https://floibanen.no/en/" },
+      { label: "Bergen History Walking Tour — TripAdvisor Ref #1349328525", url: "https://www.tripadvisor.com/AttractionProductDetail-d19029009-Bergen_Historical_Walking_Tour_with_a_Local_Guide-Bergen_Vestland.html" },
+    ],
     blocks: [
       { time: "9:50 AM", icon: "tour", title: "Bergen History Walking Tour", resId: "tourBergenHistory", blurb: "A walk through Bergen's Hanseatic past, starting right at the fortress gate. Meeting point: Bradbenken 1, a brick office building next to the fortress entrance." },
       { time: "Midday", icon: "explore", title: "Bryggen Wharf & Old Town", detail: "Bryggen Wharf (Vagen Harbor) — Bergen's most famous area. A series of colorful wooden buildings that once housed the trading offices of the Hanseatic League. UNESCO World Heritage site. The narrow passages behind the facades hide small shops, galleries, and small museums. Sandviken neighborhood — wooden houses and cobbled streets. Hanseatic Maritime Museum — oldest building, very authentic feel. Powerful guild of European merchants from the 14th–18th century.", mapQuery: "Bryggen, Bergen" },
