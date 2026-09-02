@@ -169,7 +169,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .hero-heading{margin-top:28px;text-align:center}
 .hero-client-name{font-family:var(--display);font-size:clamp(1.7rem,4.2vw,2.8rem);font-weight:700;line-height:1.1;color:#fff}
 .hero-trip-name{font-family:var(--display);font-size:clamp(1.1rem,2.6vw,1.8rem);font-weight:600;font-style:italic;color:var(--gold-soft);margin-top:6px}
-.hero-journal-label{font-family:var(--sans);font-size:.9rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#cfc9b8;margin-top:8px}
+.hero-journal-label{font-family:var(--display);font-size:1rem;font-weight:400;font-style:italic;letter-spacing:.06em;color:#cfc9b8;margin-top:8px}
 
 /* C3+C4: city rail heading + action buttons */
 .rail-heading{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);text-decoration:underline;text-underline-offset:3px;margin:0 0 10px;padding-right:14px}
