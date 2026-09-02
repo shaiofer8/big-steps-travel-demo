@@ -196,6 +196,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .transport-link{font-weight:600;color:var(--gold-deep);text-decoration:none}
 .transport-link:hover{text-decoration:underline}
 
+/* localFood — Taste of the City */
+.local-food-section{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line)}
+.local-food-heading{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-mute);margin:0 0 8px}
+.local-food-list{list-style:disc inside;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;font-size:.88rem;color:var(--ink-soft)}
+
 /* C5: mobile bottom navigation bar */
 #mobile-bar{
   display:none;

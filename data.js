@@ -343,6 +343,11 @@ const DAYS = [
     ]},
 
   { date: "2026-06-22", city: "Bergen", title: "Norway in a Nutshell — Fjord Crossing",
+    links: [
+      { label: "Bergen Card — Official Website (24h $42 / 48h $54 · free transit + museums)", url: "https://en.visitbergen.com/bergen-card" },
+      { label: "SKYSS Ticket App — save up to 20% on bus & train", url: "https://www.skyss.no/en/tickets-and-prices/skyss-ticket-app/" },
+      { label: "Visit Bergen — Official Travel Guide", url: "https://en.visitbergen.com/" },
+    ],
     blocks: [
       { time: "6:25 AM", icon: "train", title: "The Bergen Railway — Oslo → Myrdal", resId: "trainBergenRailway", blurb: "Vy Pluss (1st class), Car #1, seats 23/24/27/28 — facing seats with table. One of the world's most scenic train journeys across Norway's high mountain plateau. Arrive Myrdal 11:15 AM." },
       { time: "12:06 PM", icon: "train", title: "The Flåm Railway — Myrdal → Flåm", resId: "trainFlamRailway", blurb: "One of the steepest railways on earth — a dramatic 3,000-ft descent, with a 10-minute photo stop at Kjosfossen waterfall. Look for the seductive troll Huldra. Sit on the right side for the best fjord views." },

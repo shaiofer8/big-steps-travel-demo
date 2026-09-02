@@ -150,7 +150,14 @@
         <span class="desc">${p.desc}</span>
       </a>`).join("");
 
-    // F7: food with cuisine label pill
+    // F7: food with cuisine label pill + local food ("Taste of the City")
+    const localFoodHtml = (info.localFood || []).length
+      ? `<div class="local-food-section"><h5 class="local-food-heading">🍽 Taste of the City</h5><ul class="local-food-list">${
+          (info.localFood || []).map(lf =>
+            `<li><b>${lf.name}</b>${lf.desc ? ` — ${lf.desc}` : ""}</li>`
+          ).join("")
+        }</ul></div>`
+      : "";
     const foodCol = info.food ? `
       <div class="guide-col">
         <h4>Food &amp; Drink</h4>
@@ -159,6 +166,7 @@
             ${f.cuisine ? `<span class="food-cuisine">${f.cuisine}</span> ` : ""}<b>${f.name}</b>${f.desc ? ` — ${f.desc}` : ""}
             <span class="food-links"><a href="${mapsUrl(f.name + ", " + group.city)}" target="_blank" rel="noopener">Maps</a> · <a href="${tripadvisorUrl(f.name + " " + group.city)}" target="_blank" rel="noopener">TripAdvisor</a></span>
           </li>`).join("")}</ul>
+        ${localFoodHtml}
       </div>` : "";
 
     // F8: transportLinks (clickable URLs) + transportTips (plain text)
