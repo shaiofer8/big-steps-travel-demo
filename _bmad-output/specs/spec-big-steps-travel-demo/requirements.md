@@ -226,25 +226,26 @@ Placed as the first element inside the rail container, before the city link list
 - 6/14: Visit Stockholm
 - 6/19: Visit Oslo, Oslo Pass
 - 6/24: Bergen pubs/bars, Bergen restaurants  
-**Root cause:** app.js `planRow()` function (lines 84–95) renders `title`, `time`, `desc` only — no `links[]` field.  
-**Fix required in app.js `planRow()` function:**
+**Root cause:** `links[]` is on the **day object** (`d.links`), NOT on individual blocks. app.js lines 108–117 build each day block via `group.days.map()` — currently renders only `d.blocks.map(planRow)`, no `d.links` render.  
+**Fix required in app.js — inside the day loop (lines 108–117), add links render after blocks:**
 ```js
-function planRow(p) {
-  const linksHtml = (p.links || []).map(l =>
-    `<a href="${l.url}" target="_blank" rel="noopener" class="plan-link">🔗 ${l.label}</a>`
+const planHtml = group.days.map((entry, ci) => {
+  const d = entry.day;
+  const countdown = `...`;
+  const dayLinksHtml = (d.links || []).map(l =>
+    `<a class="day-link" href="${l.url}" target="_blank" rel="noopener">🔗 ${l.label}</a>`
   ).join('');
-  return `<div class="plan-row">
-    <div class="plan-time">${p.time || ''}</div>
-    <div class="plan-body">
-      <strong>${p.title}</strong>
-      ${p.desc ? `<p>${p.desc}</p>` : ''}
-      ${linksHtml ? `<div class="plan-links">${linksHtml}</div>` : ''}
-    </div>
+  return `
+  <div class="plan-day">
+    <div class="plan-day-head">...</div>
+    <div class="plan-countdown mono">${countdown}</div>
+    ${d.blocks.map((b) => planRow(b)).join("")}
+    ${dayLinksHtml ? `<div class="day-links-bar">${dayLinksHtml}</div>` : ""}
   </div>`;
-}
+}).join("");
 ```
-Note: links[] is on the DAYS entry, not on individual plan rows. Render the day's links[] after the last planRow, before EXPLORE inline tiles.  
-**Acceptance test:** Day 6/10 arrival block shows at least 3 clickable links including "Helsinki Airport (HEL) — Finavia" and "HSL App — Public Transport Step-by-Step Guide". Day 6/11 shows WithLocals booking link.
+**`planRow()` function does NOT need to change** — links are at day level, not block level.  
+**Acceptance test:** Day 6/10 arrival block shows at least 3 clickable links including "Helsinki Airport Arrival Guide (Video)" and "HSL App — Public Transport Step-by-Step Guide". Day 6/11 shows WithLocals booking link.
 
 ---
 
@@ -364,8 +365,46 @@ function foodRow(f) {
 ]
 ```
 Also added to `DAYS["2026-06-10"].links[]` so they render inline on arrival day (F1 covers this).  
-**App.js render:** When rendering the Helsinki Info section, if `INFO.Helsinki.transportLinks` exists, render them as clickable items before or within the transport tips.  
-**Acceptance test:** Helsinki Info / Tips section shows both HSL App video link and Helsinki Card/Stromma link as clickable items.
+**App.js render — CRITICAL:** app.js lines 136–140 render `info.transportTips` (plain text array, `<li>${t}</li>`). `info.transportLinks` (array of `{label, url}` objects) is **completely absent** from app.js rendering — no code handles it at all.  
+**Fix required in app.js (after transportCol block, lines ~136–140):**
+```js
+const transportLinksHtml = (info.transportLinks || []).map(l =>
+  `<li><a class="transport-link" href="${l.url}" target="_blank" rel="noopener">🔗 ${l.label}</a></li>`
+).join('');
+
+const transportCol = (info.transportTips || info.transportLinks) ? `
+  <div class="guide-col">
+    <h4>Getting Around</h4>
+    <ul>
+      ${(info.transportTips || []).map((t) => `<li>${t}</li>`).join("")}
+      ${transportLinksHtml}
+    </ul>
+  </div>` : "";
+```
+**Acceptance test:** Helsinki "Tips & General Guidance" section shows both HSL App video and Helsinki Card/Stromma as clickable links, not plain text.
+
+---
+
+### F9 — HEL Airport YouTube video URL from DOCX (was missing from data.js)
+**Status:** ✅ DONE (data.js fixed 2026-09-02 pass 4)  
+**Priority:** P1  
+**Source:** ITINERARY.txt line 11 — `HEL = Helsinki Airport | Finavia - https://www.youtube.com/watch?v=DCIsFoVjhpA`  
+**Gap found:** DOCX explicitly lists the HEL Airport link as a YouTube video (DCIsFoVjhpA). data.js previously only had the Finavia website URL. This is a verbatim-DOCX violation (A1).  
+**Fix:** Added `{ label: "Helsinki Airport Arrival Guide (Video)", url: "https://www.youtube.com/watch?v=DCIsFoVjhpA" }` to `DAYS["2026-06-10"].links[]`. Both website and video now present.  
+**Acceptance test:** Day 6/10 links section shows: Finavia website AND airport video link.
+
+---
+
+### F10 — Bergen Card clickable link (currently text-only in transportTips)
+**Status:** ❌ MISSING  
+**Priority:** P1  
+**Source:** ITINERARY.txt line 343 — `Bergen Card 24hr $42 / 48hr $54 ... en.visitbergen.com/bergen-card`  
+**Gap:** Bergen Card is in `INFO.Bergen.transportTips` as plain text only. The URL `https://en.visitbergen.com/bergen-card` is not clickable.  
+**Fix required — two options (either):**
+1. Add `INFO.Bergen.transportLinks: [{ label: "Bergen Card — Official Website", url: "https://en.visitbergen.com/bergen-card" }]` and render via F8 fix.
+2. OR add to `DAYS["2026-06-22"].links[]` (arrival in Bergen) as an inline link.  
+**Recommended:** Add to both — transportLinks (for Tips section) AND day 6/22 links[] (at point of use, arrival day).  
+**Acceptance test:** Bergen "Tips & General Guidance" section shows Bergen Card as a clickable link.
 
 ---
 
@@ -411,12 +450,13 @@ Also added to `DAYS["2026-06-10"].links[]` so they render inline on arrival day 
 
 ---
 
-## Stats (updated 2026-09-02)
-- **Total:** 31 (added F8 from DOCX/email cross-check)
-- **Done ✅:** 16 (A2, B2, B4, B5, C1, C2, D1, D2, E1, E2, E3, E4, E5, F3, F4, F5)
-- **Broken/Missing ❌:** 12 (A1-render, B1, B3, B6, C3, C4, C5, F1-render, F2-render, F6-render, F7-render, F8-render)
-  - Data layer fully done for: A1, A2, F1, F2, F5, F7, F8
+## Stats (updated 2026-09-02 pass 4)
+- **Total:** 33 (added F8, F9, F10 from DOCX/code cross-check)
+- **Done ✅:** 17 (A2, B2, B4, B5, C1, C2, D1, D2, E1, E2, E3, E4, E5, F3, F4, F5, F9)
+- **Broken/Missing ❌:** 13 (A1-render, B1, B3, B6, C3, C4, C5, F1-render, F2-render, F6-render, F7-render, F8-render, F10)
+  - Data layer fully done for: A1, A2, F1, F2, F5, F7, F8, F9
   - app.js layer broken for: B1, B3, B6, C3, C4, C5, F1, F2, F6, F7, F8
+  - data.js missing (small fix): F10 (Bergen Card link)
 - **Pending ⏳:** 3 (QA1, QA2, G1)
 
 ## Build Priority Order

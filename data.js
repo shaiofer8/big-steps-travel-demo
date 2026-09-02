@@ -199,9 +199,10 @@ const DAYS = [
 
   { date: "2026-06-10", city: "Helsinki", title: "Arrival Day",
     links: [
-      { label: "Helsinki Airport (HEL) — Finavia", url: "https://www.finavia.fi/en/airports/helsinki-airport" },
+      { label: "Helsinki Airport (HEL) — Finavia (website)", url: "https://www.finavia.fi/en/airports/helsinki-airport" },
+      { label: "Helsinki Airport Arrival Guide (Video)", url: "https://www.youtube.com/watch?v=DCIsFoVjhpA" },
       { label: "myhelsinki.fi — Official Travel Guide", url: "https://www.myhelsinki.fi/" },
-      { label: "Helsinki Walking Tour 4K Video", url: "https://www.youtube.com/watch?v=ESFPoxepyP4" },
+      { label: "Helsinki Travel Guide Video (4K)", url: "https://www.youtube.com/watch?v=ESFPoxepyP4" },
       { label: "HSL App — Public Transport Step-by-Step Guide (Video)", url: "https://www.youtube.com/watch?v=A_bGZomICVE" },
       { label: "Helsinki Card — Sightseeing & Excursions (Stromma)", url: "https://www.stromma.com/en-fi/helsinki/city-pass/helsinki-card/" },
       { label: "Suomenlinna Sea Fortress — Official Website", url: "https://suomenlinna.fi/en/" },

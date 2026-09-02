@@ -50,8 +50,9 @@ ANGjdJ_k3QfNEXNSPXLkNdrW-EBZUzCnSm1Ma4RE0RM9UbY7L6LaghSV2FK_B_We91eFfvysjZZ4pP-J
 ## Steve's Inline Links (Email 3 + Email 4 examples)
 
 ### Day 2026-06-10 — Arrival Helsinki
-- HEL Airport: https://www.finavia.fi/en/airports/helsinki-airport
-- Helsinki Travel Guide video: https://www.youtube.com/watch?v=ESFPoxepyP4
+- HEL Airport (website): https://www.finavia.fi/en/airports/helsinki-airport
+- **HEL Airport Arrival Guide (Video) — FROM DOCX line 11:** https://www.youtube.com/watch?v=DCIsFoVjhpA ← verbatim from DOCX, was missing from data.js until pass 4
+- Helsinki Travel Guide video (4K): https://www.youtube.com/watch?v=ESFPoxepyP4
 - myhelsinki.fi: https://www.myhelsinki.fi/
 
 ### Day 2026-06-11 — WithLocals Tour
@@ -104,6 +105,33 @@ Added to `INFO.Helsinki.transportLinks[]` AND to `DAYS["2026-06-10"].links[]` (a
 | Helsinki Card — Sightseeing & Excursions (Stromma) | https://www.stromma.com/en-fi/helsinki/city-pass/helsinki-card/ |
 
 **Rule:** Both links must appear at the Helsinki arrival day (6/10) as inline links — rendered by F1 (links[] array). Also rendered in INFO.Helsinki transport tips section (F8).
+
+---
+
+## Bergen Card URL (DOCX line 343 — F10)
+
+DOCX says: `Bergen Card 24hr $42 / 48hr $54 ... en.visitbergen.com/bergen-card`
+
+| Label | URL |
+|---|---|
+| Bergen Card — Official Website | https://en.visitbergen.com/bergen-card |
+
+**Rule:** Must be a clickable link in Bergen Tips & General Guidance section (via INFO.Bergen.transportLinks) AND optionally in DAYS[2026-06-22].links[] at point of use (arrival Bergen).
+
+---
+
+## App.js Confirmed Line References (pass 4, direct code read)
+
+| Bug | Location in app.js | Description |
+|---|---|---|
+| B1 LOGO_SVG | Line 15 | Hardcoded inline SVG, replace with `<img src="assets/bst-logo.png">` |
+| B3 clientTitle | Line 182 | `TRIP.clientTitle` → replace with clientName/tripName/journalLabel 3-line block |
+| F2 EXPLORE no filter | Lines 119–125 | `(EXPLORE[group.city] \|\| []).map(...)` — ALL items, no `day:` filter |
+| F7 cuisine missing | Lines 130–133 | `<b>${f.name}</b> — ${f.desc}` — no `f.cuisine` render |
+| F6 conditional | Line 157 | `${sites ? ...}` — must always render for all cities |
+| C3+C4 rail | Lines 199–201 | `rail.innerHTML = groups.map(...)` — one line, no heading, no buttons |
+| F1 links[] | Lines 108–117 | day loop has no `d.links` render — add after `d.blocks.map(planRow)` |
+| F8 transportLinks | Lines 136–140 | Renders `transportTips` (text) only, no `transportLinks` (URL objects) |
 
 ---
 
