@@ -13,7 +13,7 @@ sources:
 
 ## Why
 
-A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-08-29) failed to deliver the promised features: AI condensed itinerary content, inline links were not implemented, activity tiles remained at the end of sections instead of inline, and the real BST logo was never inserted. Steve Fader (President, Big Steps Travel) responded with 8 new issues and 4 "not updated" items. Trust is damaged. The rebuild must be exact and complete — every one of Steve's 30 requirements delivered faithfully, all content verbatim from the DOCX he provided, before any email is sent.
+A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-08-29) failed to deliver the promised features: AI condensed itinerary content, inline links were not implemented, activity tiles remained at the end of sections instead of inline, and the real BST logo was never inserted. Steve Fader (President, Big Steps Travel) responded with 8 new issues and 4 "not updated" items. Trust is damaged. The rebuild must be exact and complete — every one of Steve's 33 requirements delivered faithfully, all content verbatim from the DOCX he provided, before any email is sent. As of 2026-09-03: 24 of 33 requirements are done; 6 app.js/CSS items remain (B1, B3, B6, C3, C4, C5); reply sent Sep 2, awaiting Steve's response.
 
 ## Capabilities
 
@@ -69,7 +69,7 @@ A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-0
 ## Non-goals
 
 - No new design direction changes — implement Steve's requests exactly, no unsolicited redesigns.
-- No features beyond the 30 requirements in `requirements.md`.
+- No features beyond the 33 requirements in `requirements.md`.
 - No backend, database, authentication, or CMS.
 - No work on `/classic/` or `/` (Continuation) templates in this phase.
 - No production SaaS infrastructure — this is a sales demo.
@@ -77,7 +77,7 @@ A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-0
 
 ## Success signal
 
-Steve receives the updated link, reviews it on desktop and iPhone, and does not raise any new issues from the 30 requirements list. The demo demonstrates enough value that the conversation advances toward a paid itinerary.
+Steve receives the updated link, reviews it on desktop and iPhone, and does not raise any new issues from the 33 requirements list. The demo demonstrates enough value that the conversation advances toward a paid itinerary.
 
 ## Assumptions
 
