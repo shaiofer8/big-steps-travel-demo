@@ -216,7 +216,7 @@ const DAYS = [
 
   { date: "2026-06-11", city: "Helsinki", title: "Synagogue & Private Tour",
     links: [
-      { label: "Private Tour Booking — WithLocals Helsinki", url: "https://www.withlocals.com/experience/highlights-hidden-gems-of-helsinki-1dc555cb/?adults=4" },
+      { label: "Private Tour Booking — WithLocals Helsinki", url: "https://www.withlocals.com/experiences/finland/helsinki/" },
       { label: "Helsinki Walking Tour Video (4K)", url: "https://www.youtube.com/watch?v=S7mKDAoNoo8" },
       { label: "Paja Workshop — Finnish Crafts", url: "https://www.pajadesign.com/" },
     ],
@@ -359,7 +359,7 @@ const DAYS = [
 
   { date: "2026-06-23", city: "Bergen", title: "Bryggen & the Fish Market",
     links: [
-      { label: "Fløibanen Funicular — Book Online (roundtrip $15)", url: "https://floibanen.no/en/" },
+      { label: "Fløibanen Funicular — Book Online (roundtrip $15)", url: "https://www.floibanen.com/" },
       { label: "Bergen History Walking Tour — TripAdvisor Ref #1349328525", url: "https://www.tripadvisor.com/AttractionProductDetail-d19029009-Bergen_Historical_Walking_Tour_with_a_Local_Guide-Bergen_Vestland.html" },
     ],
     blocks: [

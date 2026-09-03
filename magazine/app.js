@@ -220,7 +220,7 @@
 
     const hero = `
       <section class="hero">
-        <img src="${TRIP.heroImage}" alt="" class="hero-img">
+        <img src="${TRIP.heroImage}" alt="" aria-hidden="true" class="hero-img">
         <div class="hero-fade"></div>
         <div class="wrap hero-content">
           <div class="hero-logo">${LOGO_HTML}</div>
