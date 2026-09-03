@@ -157,9 +157,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 /* B6: Emoji flag rendering on Windows Chrome */
 .hero-countries,.city-badges,.country-flags{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",var(--sans)}
 
-/* B1: Real BST logo img */
-.hero-logo-img{height:60px;max-width:220px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
-.hero-logo-fallback{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--gold-soft);letter-spacing:.04em;background:rgba(0,0,0,.35);padding:6px 14px;border-radius:8px}
+/* B1: logo removed temporarily — PNG not in assets yet; styles kept for future reinstatement */
+/* .hero-logo-img, .hero-logo-fallback — inactive */
 
 /* B3: 3-line hero heading */
 .hero-heading{margin-top:28px;text-align:center}
@@ -169,7 +168,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .hero-journal-label{font-family:var(--display);font-size:clamp(1.0rem,2.2vw,1.4rem);font-weight:600;letter-spacing:.04em;color:#e8e4d8;margin-top:8px}
 
 /* C3+C4: city rail heading + action buttons */
-.rail-heading{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);text-decoration:underline;text-underline-offset:3px;margin:0 0 10px;padding-right:14px}
+.rail-heading{font-size:.72rem;font-weight:700;letter-spacing:.05em;color:var(--gold-deep);text-decoration:underline;text-underline-offset:3px;margin:0 0 10px;padding-right:14px}
 .rail-actions{display:flex;flex-direction:column;gap:6px;margin-top:18px;padding-right:14px}
 .rail-btn{font-size:.76rem;font-weight:600;border-radius:8px;padding:7px 10px;cursor:pointer;text-align:left;border:none;white-space:nowrap}
 .rail-btn--primary{background:var(--gold);color:#1a1a1a}
@@ -194,7 +193,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .transport-link{font-weight:600;color:var(--gold-deep);text-decoration:none}
 .transport-link:hover{text-decoration:underline}
 
-/* localFood — Taste of the City */
+/* localFood — Taste of [Country] (dynamic per city, F7-update) */
 .local-food-section{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line)}
 .local-food-heading{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-mute);margin:0 0 8px}
 .local-food-list{list-style:disc inside;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;font-size:.88rem;color:var(--ink-soft)}
@@ -211,7 +210,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
   will-change:transform;
 }
 @media (max-width:1120px){#mobile-bar{display:block}}
-@media (max-width:1120px){body{padding-bottom:100px}}
+@media (max-width:1120px){body{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}}
 .mobile-bar-chips{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:6px}
 .mobile-bar-chips::-webkit-scrollbar{display:none}
 .mobile-chip{flex:0 0 auto;font-size:.78rem;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none;white-space:nowrap}

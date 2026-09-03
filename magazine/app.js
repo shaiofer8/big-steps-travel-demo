@@ -25,7 +25,9 @@
   function mapsUrl(q) { return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`; }
   function tripadvisorUrl(q) { return `https://www.tripadvisor.com/Search?q=${encodeURIComponent(q)}`; }
   function fmtDate(iso) {
+    if (!iso) return "";
     const d = new Date(iso + "T00:00:00");
+    if (isNaN(d)) return iso;
     return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   }
   const ICONS = {
@@ -62,7 +64,7 @@
 
   function ticket(block) {
     const mapLink = block.mapQuery ? `<a class="plan-maplink" href="${mapsUrl(block.mapQuery)}" target="_blank" rel="noopener">Open in Maps ↗</a>` : "";
-    if (!block.resId) {
+    if (!block.resId || !RESERVATIONS[block.resId]) {
       return `${block.detail ? `<p class="plan-detail">${block.detail}</p>` : ""}${mapLink}`;
     }
     const r = RESERVATIONS[block.resId];
@@ -86,10 +88,11 @@
   ]);
 
   function planRow(block) {
-    const hasRes = !!block.resId;
+    const hasRes = !!(block.resId && RESERVATIONS[block.resId]);
     const group = hasRes ? typeGroup(RESERVATIONS[block.resId].type) : "";
     // F11: show "•" for items without a precise clock time
-    const timeDisplay = (!block.time || GENERIC_TIMES.has(block.time.trim())) ? "•" : block.time;
+    const t = block.time == null ? "" : String(block.time).trim();
+    const timeDisplay = (!t || GENERIC_TIMES.has(t)) ? "•" : t;
     return `
       <div class="plan-row ${hasRes ? "restype-" + group : ""}">
         <div class="plan-time mono">${timeDisplay}</div>
@@ -102,14 +105,16 @@
 
   // F12: shared tile builder — <div> not <a>, includes Maps + TripAdvisor links (Steve Sep 3 item 8)
   function siteTile(p, city) {
+    const mq = p.mapQuery && p.mapQuery.trim() ? p.mapQuery : p.name;
+    const cityDisplay = displayCity(city);
     return `<div class="site-tile">
       <img src="${p.img}" alt="${p.name}" loading="lazy">
       <span class="tag">${p.tag}</span>
       <span class="name">${p.name}</span>
       <span class="desc">${p.desc}</span>
       <span class="tile-links">
-        <a href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener">Maps</a> ·
-        <a href="${tripadvisorUrl(p.name + ", " + city)}" target="_blank" rel="noopener">TripAdvisor</a>
+        <a href="${mapsUrl(mq)}" target="_blank" rel="noopener">Maps</a> ·
+        <a href="${tripadvisorUrl(p.name + ", " + cityDisplay)}" target="_blank" rel="noopener">TripAdvisor</a>
       </span>
     </div>`;
   }
@@ -148,7 +153,7 @@
       <div class="plan-day">
         <div class="plan-day-head"><span class="plan-date">${fmtDate(d.date)}</span><span class="plan-day-title">${d.title}</span></div>
         <div class="plan-countdown mono">${countdown}</div>
-        ${d.blocks.map((b) => planRow(b)).join("")}
+        ${(d.blocks || []).map((b) => planRow(b)).join("")}
         ${dayLinksHtml}
         ${dayTilesHtml}
       </div>`;
@@ -344,9 +349,13 @@
     `;
     sheet.showModal();
   }
-  function wireResChips() {
-    document.querySelectorAll("[data-res]").forEach((el) => el.addEventListener("click", () => openReservation(el.getAttribute("data-res"))));
-  }
+  // Event delegation — one listener on document; no duplicate listeners on re-render or panel open
+  function wireResChips() {}  // kept as no-op; delegation below handles all [data-res] clicks
+  // Single delegated listener for all [data-res] boarding-pass chips (avoids duplicate handlers)
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-res]");
+    if (btn) openReservation(btn.getAttribute("data-res"));
+  });
   document.getElementById("sheetClose").addEventListener("click", () => sheet.close());
   sheet.addEventListener("click", (e) => { if (e.target === sheet) sheet.close(); });
 
@@ -355,7 +364,10 @@
   // -----------------------------------------------------------------
   function openReservationsPanel() {
     const byType = { flight: [], hotel: [], train: [], ferry: [], tour: [] };
-    for (const [id, r] of Object.entries(RESERVATIONS)) byType[r.type].push({ id, ...r });
+    for (const [id, r] of Object.entries(RESERVATIONS)) {
+      if (!byType[r.type]) byType[r.type] = [];
+      byType[r.type].push({ id, ...r });
+    }
     const labels = { flight: "Flights", hotel: "Hotels", train: "Trains", ferry: "Ferries", tour: "Tours & Experiences" };
     panelBody.innerHTML = `
       <p class="sheet-kicker">Every booking</p>
@@ -376,7 +388,7 @@
   }
   function openMapPanel() {
     const rows = [];
-    for (const d of DAYS) for (const b of d.blocks) if (b.mapQuery) rows.push({ name: b.title, city: d.city, q: b.mapQuery });
+    for (const d of DAYS) for (const b of (d.blocks || [])) if (b.mapQuery && b.mapQuery.trim()) rows.push({ name: b.title, city: d.city, q: b.mapQuery });
     for (const r of Object.values(RESERVATIONS)) if (r.mapQuery) rows.push({ name: r.title, city: r.city || "", q: r.mapQuery });
     for (const [city, items] of Object.entries(EXPLORE)) for (const p of items) rows.push({ name: p.name, city, q: p.mapQuery });
     const seen = new Set();
@@ -400,10 +412,17 @@
 
   render();
 
-  // B6: Twemoji — parse flag emoji in hero and city badges as SVG images (Windows Chrome has no flag font)
-  if (window.twemoji) {
+  // B6: Twemoji — parse flag emoji as SVG images (Windows Chrome has no native flag font)
+  // Guard against race condition: CDN script may finish loading after app.js runs
+  function applyTwemoji() {
     document.querySelectorAll('.hero-countries, .city-badges').forEach(function(el) {
       twemoji.parse(el, { folder: 'svg', ext: '.svg' });
     });
+  }
+  if (window.twemoji) {
+    applyTwemoji();
+  } else {
+    var twScript = document.querySelector('script[src*="twemoji"]');
+    if (twScript) twScript.addEventListener('load', applyTwemoji);
   }
 })();
