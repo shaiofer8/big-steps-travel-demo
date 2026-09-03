@@ -10,9 +10,7 @@
   const panel = document.getElementById("panel");
   const panelBody = document.getElementById("panelBody");
 
-  // B1: Real BST logo PNG (Steve's ask). Falls back to text badge if file not yet placed.
-  const LOGO_HTML = `<img src="assets/bst-logo.png" alt="Big Steps Travel" class="hero-logo-img"
-    onerror="this.outerHTML='<span class=hero-logo-fallback>Big Steps Travel</span>'">`;
+  // B1: logo removed temporarily — PNG not yet in assets; no fallback text shown.
 
   // Display-only renaming for the two synthetic travel-day groups (Steve's
   // ask: "In Flight" -> "Departure", "Departure" -> "Return"). The underlying
@@ -232,7 +230,7 @@
         <img src="${TRIP.heroImage}" alt="" aria-hidden="true" class="hero-img">
         <div class="hero-fade"></div>
         <div class="wrap hero-content">
-          <div class="hero-logo">${LOGO_HTML}</div>
+
           <p class="hero-slogan">${TRIP.brand.tagline}</p>
           <div class="hero-heading">
             <div class="hero-client-name">${TRIP.clientName}</div>
