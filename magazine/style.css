@@ -42,7 +42,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 }
 .city-rail a{font-size:.94rem;font-weight:700;color:var(--ink-mute);text-decoration:none;padding-right:14px;border-right:2px solid transparent;transition:color .2s ease,border-color .2s ease}
 .city-rail a.active{color:var(--gold-deep);border-color:var(--gold)}
-@media (max-width:980px){ .city-rail{display:none} }
+@media (max-width:1120px){ .city-rail{display:none} }
 
 /* Hero — intro page: centered logo, slogan, client name, dates, countries
    with flags (Steve's full intro-page spec, 2026-08-29). */
@@ -53,7 +53,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .hero-logo{display:flex;justify-content:center}
 .hero-logo svg{border-radius:9px;box-shadow:0 4px 14px -4px rgba(0,0,0,.5)}
 .hero-slogan{margin-top:14px;font-family:var(--display);font-style:italic;font-size:1rem;color:var(--gold-soft)}
-.hero-client{margin-top:28px;font-size:clamp(1.7rem,4.6vw,3rem);line-height:1.15;max-width:20ch;color:#fff}
+/* .hero-client removed — replaced by .hero-heading 3-line structure (B3) */
 .hero-dates{margin-top:16px;font-size:1.08rem;color:#e8e4d8;font-weight:500}
 .hero-countries{margin-top:12px;font-size:.86rem;letter-spacing:.03em;color:#cfc9b8}
 
@@ -70,7 +70,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .city-badges span{font-family:var(--mono);font-size:.76rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(6px);border-radius:999px;padding:6px 13px;color:#fff}
 
 .city-body{padding-block:44px 60px}
-.section-label{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-top:44px;margin-bottom:18px}
+.section-label{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-top:36px;margin-bottom:18px}
 .city-body>.section-label:first-child{margin-top:0}
 
 /* Plan (day-by-day within a city) — each day boxed and separated, like the
@@ -78,12 +78,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .plan-day{margin-bottom:22px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:0 8px 20px -16px rgba(26,26,26,.2)}
 .plan-day-head{display:flex;align-items:baseline;gap:10px;padding-bottom:6px}
 .plan-date{font-family:var(--display);font-weight:600;font-size:1.05rem}
-.plan-day-title{font-size:.86rem;color:var(--ink-mute)}
+.plan-day-title{font-size:.86rem;color:var(--ink-soft)}
 .plan-countdown{font-size:.72rem;color:var(--gold-deep);padding-bottom:10px;margin-bottom:8px;border-bottom:1px solid var(--line)}
 .plan-row{display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;padding-block:10px}
 .plan-time{font-size:.78rem;color:var(--ink-mute);padding-top:3px}
 .plan-main{min-width:0}
 .plan-title{font-weight:600;font-size:.95rem}
+@media (max-width:500px){.plan-row{grid-template-columns:56px minmax(0,1fr);gap:10px}.plan-time{font-size:.72rem}}
 .plan-detail{font-size:.86rem;color:var(--ink-soft);margin-top:5px;max-width:58ch}
 .plan-maplink{display:inline-block;margin-top:6px;font-size:.8rem;font-weight:700;color:var(--gold-deep);text-decoration:none}
 
@@ -125,11 +126,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .food-links a{font-size:.76rem;font-weight:700;color:var(--gold-deep);text-decoration:none}
 .food-links a:hover{text-decoration:underline}
 
-/* Quick links — Reservations/Map, moved below the last (Return) section
-   per Steve's ask, renamed "Reservation Links/Info" / "Google Map Links". */
-.quick-links{display:flex;justify-content:center;gap:14px;padding-block:34px 6px;flex-wrap:wrap}
-.quick-links .pill-btn{border:1px solid var(--ink);border-radius:999px;padding:11px 22px;font-weight:600;font-size:.9rem;color:var(--ink)}
-.quick-links .pill-btn:hover{background:var(--ink);color:var(--paper)}
+/* quick-links section removed — buttons live in the rail (C4) */
 
 .site-footer{padding-block:40px;text-align:center;color:var(--ink-mute);font-size:.85rem;border-top:1px solid var(--line);margin-top:20px}
 
@@ -163,7 +160,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 
 /* B1: Real BST logo img */
 .hero-logo-img{height:60px;max-width:220px;object-fit:contain;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45))}
-.hero-logo-fallback{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--gold-soft);letter-spacing:.04em}
+.hero-logo-fallback{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--gold-soft);letter-spacing:.04em;background:rgba(0,0,0,.35);padding:6px 14px;border-radius:8px}
 
 /* B3: 3-line hero heading */
 .hero-heading{margin-top:28px;text-align:center}
@@ -209,11 +206,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
   box-shadow:0 -4px 16px -8px rgba(26,26,26,.2);
   padding:10px 16px 12px;
 }
-@media (max-width:980px){#mobile-bar{display:block}}
-@media (max-width:980px){body{padding-bottom:100px}}
+@media (max-width:1120px){#mobile-bar{display:block}}
+@media (max-width:1120px){body{padding-bottom:100px}}
 .mobile-bar-chips{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:6px}
 .mobile-bar-chips::-webkit-scrollbar{display:none}
 .mobile-chip{flex:0 0 auto;font-size:.78rem;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none;white-space:nowrap}
 .mobile-chip:hover,.mobile-chip.active{background:var(--gold-soft);border-color:var(--gold);color:var(--gold-deep)}
+.mobile-chip--travel{opacity:.55;font-size:.72rem}
 .mobile-bar-actions{display:flex;gap:8px;margin-top:6px}
 .mobile-bar-actions .rail-btn{flex:1;text-align:center;font-size:.78rem;padding:7px 8px;border-radius:8px}

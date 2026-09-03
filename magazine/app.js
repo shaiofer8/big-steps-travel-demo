@@ -140,7 +140,7 @@
       </div>`;
     }).join("");
 
-    // F6: Add-on Options grid — always shown for every city; only tiles WITHOUT a day: assignment
+    // F6: Add-on Options grid — only tiles WITHOUT a day: assignment; hidden when empty
     const addonTiles = allExplore.filter(e => !e.day);
     const addonHtml = addonTiles.map((p) => `
       <a class="site-tile" href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener">
@@ -149,6 +149,9 @@
         <span class="name">${p.name}</span>
         <span class="desc">${p.desc}</span>
       </a>`).join("");
+    const addonSection = addonTiles.length ? `
+      <h3 class="section-label">Add on Options of Things to Do &amp; See</h3>
+      <div class="site-grid">${addonHtml}</div>` : "";
 
     // F7: food with cuisine label pill + local food ("Taste of the City")
     const localFoodHtml = (info.localFood || []).length
@@ -197,8 +200,7 @@
           <h3 class="section-label">The Plan</h3>
           <div class="plan">${planHtml}</div>
 
-          <h3 class="section-label">Add on Options of Things to Do &amp; See</h3>
-          <div class="site-grid">${addonHtml}</div>
+          ${addonSection}
 
           ${(foodCol || transportCol) ? `<h3 class="section-label">Tips &amp; General Guidance</h3><div class="guide-grid">${foodCol}${transportCol}</div>` : ""}
         </div>
@@ -233,13 +235,7 @@
         </div>
       </section>`;
 
-    const quickLinks = `
-      <section class="wrap quick-links">
-        <button class="pill-btn" id="openReservations">Reservation Links/Info</button>
-        <button class="pill-btn" id="openMap">Google Map Links</button>
-      </section>`;
-
-    app.innerHTML = hero + groups.map((g, i) => citySection(g, i)).join("") + quickLinks + `
+    app.innerHTML = hero + groups.map((g, i) => citySection(g, i)).join("") + `
       <footer class="site-footer">
         <div class="wrap">${TRIP.brand.name} — every reservation, every stop, in one place.</div>
       </footer>`;
@@ -254,8 +250,6 @@
         <button class="rail-btn rail-btn--secondary" id="openMapRail">🗺️ Google Map Links</button>
       </div>`;
 
-    document.getElementById("openReservations").addEventListener("click", openReservationsPanel);
-    document.getElementById("openMap").addEventListener("click", openMapPanel);
     document.getElementById("openReservationsRail").addEventListener("click", openReservationsPanel);
     document.getElementById("openMapRail").addEventListener("click", openMapPanel);
 
@@ -267,9 +261,18 @@
       mobileBar.setAttribute("aria-label", "City navigation");
       document.body.appendChild(mobileBar);
     }
+    // Real destination cities first, then travel days (dimmed) at end
+    const travelDays = ["In Flight", "Departure"];
+    const chipsSorted = [
+      ...groups.filter(g => !travelDays.includes(g.city)).map((g, _i) => ({ g, i: groups.indexOf(g) })),
+      ...groups.filter(g => travelDays.includes(g.city)).map((g, _i) => ({ g, i: groups.indexOf(g) })),
+    ];
     mobileBar.innerHTML = `
       <div class="mobile-bar-chips">
-        ${groups.map((g, i) => `<a class="mobile-chip" href="#city-${i}">${displayCity(g.city)}</a>`).join("")}
+        ${chipsSorted.map(({ g, i }) => {
+            const isTravel = travelDays.includes(g.city);
+            return `<a class="mobile-chip${isTravel ? " mobile-chip--travel" : ""}" href="#city-${i}">${displayCity(g.city)}</a>`;
+          }).join("")}
       </div>
       <div class="mobile-bar-actions">
         <button class="rail-btn rail-btn--primary" id="openReservationsMobile">📋 Reservations</button>
