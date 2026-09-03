@@ -81,17 +81,39 @@
       </button>`;
   }
 
-  function planRow(block, isLast) {
+  // F11: generic time-of-day labels → bullet point (Steve Sep 3 item 7)
+  const GENERIC_TIMES = new Set([
+    "Morning","Afternoon","Late Afternoon","Evening","Night",
+    "All day","All Day","Day","Midday","Noon","TBD",""
+  ]);
+
+  function planRow(block) {
     const hasRes = !!block.resId;
     const group = hasRes ? typeGroup(RESERVATIONS[block.resId].type) : "";
+    // F11: show "•" for items without a precise clock time
+    const timeDisplay = (!block.time || GENERIC_TIMES.has(block.time.trim())) ? "•" : block.time;
     return `
       <div class="plan-row ${hasRes ? "restype-" + group : ""}">
-        <div class="plan-time mono">${block.time}</div>
+        <div class="plan-time mono">${timeDisplay}</div>
         <div class="plan-main">
           <div class="plan-title">${block.title}</div>
           ${ticket(block)}
         </div>
       </div>`;
+  }
+
+  // F12: shared tile builder — <div> not <a>, includes Maps + TripAdvisor links (Steve Sep 3 item 8)
+  function siteTile(p, city) {
+    return `<div class="site-tile">
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      <span class="tag">${p.tag}</span>
+      <span class="name">${p.name}</span>
+      <span class="desc">${p.desc}</span>
+      <span class="tile-links">
+        <a href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener">Maps</a> ·
+        <a href="${tripadvisorUrl(p.name + ", " + city)}" target="_blank" rel="noopener">TripAdvisor</a>
+      </span>
+    </div>`;
   }
 
   function citySection(group, idx) {
@@ -118,16 +140,10 @@
           ).join("")}</div>`
         : "";
 
-      // F2: inline tiles for activities assigned to this specific day
+      // F2: inline tiles for activities assigned to this specific day (F12: use siteTile with Maps+TA)
       const dayTiles = allExplore.filter(e => e.day === d.date);
       const dayTilesHtml = dayTiles.length
-        ? `<div class="site-grid site-grid--inline">${dayTiles.map(p => `
-            <a class="site-tile" href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener">
-              <img src="${p.img}" alt="${p.name}" loading="lazy">
-              <span class="tag">${p.tag}</span>
-              <span class="name">${p.name}</span>
-              <span class="desc">${p.desc}</span>
-            </a>`).join("")}</div>`
+        ? `<div class="site-grid site-grid--inline">${dayTiles.map(p => siteTile(p, group.city)).join("")}</div>`
         : "";
 
       return `
@@ -140,22 +156,15 @@
       </div>`;
     }).join("");
 
-    // F6: Add-on Options grid — only tiles WITHOUT a day: assignment; hidden when empty
+    // F6+F12: EXPLORE tiles without day — NO heading (Steve Sep 3 item 8), uses siteTile with Maps+TA
     const addonTiles = allExplore.filter(e => !e.day);
-    const addonHtml = addonTiles.map((p) => `
-      <a class="site-tile" href="${mapsUrl(p.mapQuery)}" target="_blank" rel="noopener">
-        <img src="${p.img}" alt="${p.name}" loading="lazy">
-        <span class="tag">${p.tag}</span>
-        <span class="name">${p.name}</span>
-        <span class="desc">${p.desc}</span>
-      </a>`).join("");
-    const addonSection = addonTiles.length ? `
-      <h3 class="section-label">Add on Options of Things to Do &amp; See</h3>
-      <div class="site-grid">${addonHtml}</div>` : "";
+    const addonSection = addonTiles.length
+      ? `<div class="site-grid">${addonTiles.map(p => siteTile(p, group.city)).join("")}</div>`
+      : "";
 
-    // F7: food with cuisine label pill + local food ("Taste of the City")
+    // F7: food with cuisine label pill + local food heading dynamic "Taste of [Country]" (F7-update)
     const localFoodHtml = (info.localFood || []).length
-      ? `<div class="local-food-section"><h5 class="local-food-heading">🍽 Taste of the City</h5><ul class="local-food-list">${
+      ? `<div class="local-food-section"><h5 class="local-food-heading">🍽 Taste of ${COUNTRIES[group.city] || group.city}</h5><ul class="local-food-list">${
           (info.localFood || []).map(lf =>
             `<li><b>${lf.name}</b>${lf.desc ? ` — ${lf.desc}` : ""}</li>`
           ).join("")
@@ -392,4 +401,11 @@
   panel.addEventListener("click", (e) => { if (e.target === panel) panel.close(); });
 
   render();
+
+  // B6: Twemoji — parse flag emoji in hero and city badges as SVG images (Windows Chrome has no flag font)
+  if (window.twemoji) {
+    document.querySelectorAll('.hero-countries, .city-badges').forEach(function(el) {
+      twemoji.parse(el, { folder: 'svg', ext: '.svg' });
+    });
+  }
 })();

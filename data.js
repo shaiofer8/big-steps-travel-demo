@@ -1,4 +1,4 @@
-// data.js — Nordic & Baltic Escape, June 9–25 2026
+// data.js — Nordic & Baltic, June 9–25 2026
 // Source: "Itinerary - Nordic-Baltic Region Scandinavia 2026 - Shared.docx"
 // (Big Steps Travel, updated 5/21/26). Transformed into structured data for
 // the Trip / Reservations / Explore / Map / Info surfaces.
@@ -6,10 +6,10 @@
 
 const TRIP = {
   brand: { name: "Big Steps Travel", tagline: "Every Great Journey Begins with BIG Steps™" },
-  title: "Nordic & Baltic Escape",
+  title: "Nordic & Baltic",
   // B3: three separate hero heading lines
   clientName: "The Carlton Family",
-  tripName: "Scandinavian/Baltic Escape",
+  tripName: "Scandinavian/Baltic",  // B7: "Escape" removed — AI-added, not in DOCX (Steve Sep 3 item 1)
   journalLabel: "Travel Journal",
   // legacy single field kept for backward compat
   clientTitle: "The Carlton Family Scandinavian/Baltic Travel Journal",
