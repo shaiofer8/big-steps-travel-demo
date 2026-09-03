@@ -357,7 +357,7 @@
     if (btn) openReservation(btn.getAttribute("data-res"));
   });
   document.getElementById("sheetClose").addEventListener("click", () => sheet.close());
-  sheet.addEventListener("click", (e) => { if (e.target === sheet) sheet.close(); });
+  sheet.addEventListener("click", (e) => { if (!e.target.closest(".sheet-inner")) sheet.close(); });
 
   // -----------------------------------------------------------------
   // Reservations / Map quick panels (topbar buttons)
@@ -373,7 +373,7 @@
       <p class="sheet-kicker">Every booking</p>
       <h3 class="sheet-title">Reservations</h3>
       ${Object.entries(byType).filter(([, v]) => v.length).map(([type, items]) => `
-        <h4 class="panel-subhead">${labels[type]}</h4>
+        <h4 class="panel-subhead">${labels[type] || type}</h4>
         <div class="panel-list">
           ${items.map((r) => `
             <button class="boarding-pass restype-${typeGroup(r.type)}" data-res="${r.id}">
@@ -390,7 +390,7 @@
     const rows = [];
     for (const d of DAYS) for (const b of (d.blocks || [])) if (b.mapQuery && b.mapQuery.trim()) rows.push({ name: b.title, city: d.city, q: b.mapQuery });
     for (const r of Object.values(RESERVATIONS)) if (r.mapQuery) rows.push({ name: r.title, city: r.city || "", q: r.mapQuery });
-    for (const [city, items] of Object.entries(EXPLORE)) for (const p of items) rows.push({ name: p.name, city, q: p.mapQuery });
+    for (const [city, items] of Object.entries(EXPLORE)) for (const p of items) if (p.mapQuery && p.mapQuery.trim()) rows.push({ name: p.name, city, q: p.mapQuery });
     const seen = new Set();
     const unique = rows.filter((r) => (seen.has(r.q) ? false : (seen.add(r.q), true)));
     panelBody.innerHTML = `
@@ -408,7 +408,7 @@
   // (moved below the Return section per Steve's ask), so their listeners
   // are wired inside render() instead of here at load time.
   document.getElementById("panelClose").addEventListener("click", () => panel.close());
-  panel.addEventListener("click", (e) => { if (e.target === panel) panel.close(); });
+  panel.addEventListener("click", (e) => { if (!e.target.closest(".panel-inner")) panel.close(); });
 
   render();
 
