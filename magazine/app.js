@@ -309,10 +309,10 @@
           }
         });
       },
-      { rootMargin: "-40% 0px -55% 0px" }
+      { rootMargin: "-30% 0px -60% 0px" }
     );
     sections.forEach((s) => io.observe(s));
-    links.forEach((l) => l.addEventListener("click", (e) => { e.preventDefault(); document.getElementById(l.getAttribute("href").slice(1)).scrollIntoView({ behavior: "smooth" }); }));
+    links.forEach((l) => l.addEventListener("click", (e) => { e.preventDefault(); const el = document.getElementById(l.getAttribute("href").slice(1)); if (el) el.scrollIntoView({ behavior: "smooth" }); }));
   }
 
   // -----------------------------------------------------------------
