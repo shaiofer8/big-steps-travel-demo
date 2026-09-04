@@ -110,9 +110,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .bp-arrow{color:var(--ink-mute);font-size:1.2rem}
 
 /* Sites grid */
-.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,320px));gap:16px;justify-content:center}
+.site-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
 /* F12: site-tile is now a div (not <a>) — Maps+TripAdvisor links inside via .tile-links */
-.site-tile{display:flex;flex-direction:column;color:inherit}
+/* 1fr tracks let a full row stretch to fill the measure; max-width stops a
+   row with only one or two tiles from inflating them into giant cards. */
+.site-tile{display:flex;flex-direction:column;color:inherit;max-width:360px}
 .site-tile img{height:150px;object-fit:cover;border-radius:10px}
 .site-tile .tag{margin-top:10px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gold-deep)}
 .site-tile .name{font-family:var(--display);font-weight:600;font-size:1.02rem;margin-top:3px}
@@ -191,7 +193,7 @@ img.emoji{height:1em;width:1em;margin:0 .06em 0 .1em;vertical-align:-.1em;displa
 .day-link:hover{background:var(--gold);color:#1a1a1a}
 
 /* F2: inline EXPLORE tiles inside day blocks (smaller) */
-.site-grid--inline{grid-template-columns:repeat(auto-fit,minmax(150px,260px));justify-content:start;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.site-grid--inline{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
 .site-grid--inline .site-tile img{height:110px}
 
 /* F7: food cuisine label */
