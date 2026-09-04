@@ -156,6 +156,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 
 /* B6: Emoji flag rendering on Windows Chrome */
 .hero-countries,.city-badges,.country-flags{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",var(--sans)}
+/* B6: Twemoji replaces flag emoji with <img class="emoji"> — without this the SVG
+   renders at its natural size (huge block per flag). Must match the text size. */
+img.emoji{height:1em;width:1em;margin:0 .06em 0 .1em;vertical-align:-.1em;display:inline-block}
 
 /* B1: logo removed temporarily — PNG not in assets yet; styles kept for future reinstatement */
 /* .hero-logo-img, .hero-logo-fallback — inactive */
