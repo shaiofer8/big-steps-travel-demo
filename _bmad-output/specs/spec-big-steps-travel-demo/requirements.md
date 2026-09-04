@@ -243,6 +243,60 @@ Last full review: 2026-09-04 (PM pass 7 — full code+QA cross-check, commit 38f
 
 ---
 
+## H — Email 2 (Aug 27) — Format Foundation
+
+> Source: Steve Fader, 2026-08-27 17:54, msg `1a0445c68fe66ac4`, thread `19fc15cbe026d6e3`, subject "Re: Hi".
+> **This email was missing from the spec until the 2026-09-04 audit.** Its seven numbered edits were in fact all implemented, but were never tracked as requirements — so nothing was verifying them. Recorded here with the code that satisfies each.
+
+### H1 — Dates more prominent; swap day numbers and dates
+**Status:** ✅ DONE — verified 2026-09-04
+**Source:** "Dates should be more prominent - swap the locations of the day #'s and the dates"
+**Implementation:** `.plan-date` renders first at 1.05rem / weight 600 in the display face; the day-count line (`.plan-countdown`) sits below it in mono at a smaller size.
+
+---
+
+### H2 — City summary block on the arrival day
+**Status:** ✅ DONE — verified verbatim 2026-09-04
+**Source:** "There should be a summary heading with general information for the City/Location on that first day of arrival" — example given: *"Helsinki- 3 ½ days/ 4 nights Wed 6/10 – Sun 6/14, Temp – 70ish day / 55 night sunrise 3:59a- 10:42p = 18 ½ hrs sunshine, 7 hours ahead of DC"*
+**Implementation:** `.city-badges` renders `info.stay`, `info.weather`, `info.hoursAheadDC`. data.js matches Steve's example word for word.
+
+---
+
+### H3 — Sites/Things to Do as bullets with explanations and links, by day
+**Status:** ✅ DONE
+**Source:** Named examples — Amos Rex, Kamppi Chapel, Hakaniemi Market Hall, Suomenlinna
+**Implementation:** all four are EXPLORE entries with `day: "2026-06-10"`, rendered inline in that day block. Covered operationally by F2.
+
+---
+
+### H4 — Food and Transportation sections at the end of each city stay
+**Status:** ✅ DONE
+**Implementation:** `foodCol` + `transportCol` under the "Tips & General Guidance" heading at the end of each city section. Covered by E5/F8.
+
+---
+
+### H5 — Room for "explanations and color"
+**Status:** ✅ DONE
+**Source:** "Need to create space for 'explanations and color' – see/review the 6/22 activities"
+**Implementation:** 6/22 (Bergen Railway → Flåm → fjord cruise) carries full `blurb`/`detail` text on every block, verbatim from DOCX lines 287–301.
+
+---
+
+### H6 — City photo on the arrival day
+**Status:** ✅ DONE
+**Source:** "Inserting picture of the city or iconic location helps break up the sea of words… you can never overdue pictures"
+**Implementation:** `.city-band` renders `info.cityImage` (falling back to the first EXPLORE image) at the top of every city section.
+
+---
+
+### H7 — Three-way colour coding on reservation cards
+**Status:** ✅ DONE (see note)
+**Source:** "change the 'view reservation details' buttons from all yellow to blue/hotel, orange/planes-boats-trains and green/tours"
+**Implementation:** `--c-hotel:#2f5fd0` (blue) · `--c-transport:#c9962f` (amber) · `--c-tour:#2f7d52` (green), applied via `.restype-*`.
+**Note:** the transport colour is amber/gold rather than a pure orange. Steve has seen it across three review rounds without objection, and in Email 5 he referred to this colour family approvingly ("highlighted in yellow/orange **like the Reservation link**"). Left as is deliberately.
+
+---
+
 ## G — Communication
 
 ### G1 — Email to Steve (approved + sent)
@@ -259,17 +313,26 @@ Last full review: 2026-09-04 (PM pass 7 — full code+QA cross-check, commit 38f
 ## QA Status
 
 ### QA1 — Real Windows Chrome desktop
-**Status:** ⏳ PENDING  
-**What to verify:**
-- B6: Flag emoji render as colored SVG images (Twemoji via jsdelivr)
-- All other features: confirmed working in Playwright
+**Status:** ✅ PASSED 2026-09-04 (user screenshot, Windows laptop, Chrome)
+- B6: flags render as images at text size — `Finland 🇫🇮 · Estonia 🇪🇪 · Sweden 🇸🇪 · Norway 🇳🇴` ✅
+- Rail: "Click for Quick Search" + city links + both orange action buttons ✅
+- Hero: 3 lines, one typeface, decreasing size, no "Escape", no white banner ✅
+- **Found and fixed:** Kamppi Chapel and Hakaniemi Market Hall rendered as broken images (both URLs 404). Replaced; all 20 image URLs re-verified 200, and 51/51 `<img>` elements confirmed loading in-browser.
 
 ### QA2 — Real iPhone
-**Status:** ⏳ PENDING  
-**What to verify:**
-- C5: Fixed mobile bottom bar visible at all scroll positions
-- Backdrop dismiss (closest() fix applied)
-- All other features: confirmed working in Playwright
+**Status:** ✅ PASSED 2026-09-04 (user screenshots, iPhone Safari)
+- C5: fixed bottom bar present at every scroll position, city chips scrollable, both orange buttons ✅
+- **Found and fixed:** Twemoji injected `<img class="emoji">` with no sizing, so each flag rendered ~170px tall and broke the hero onto multiple lines. Added `img.emoji{height:1em;width:1em}`; re-verified a 512px source SVG now renders at 13.75px.
+
+### QA3 — Layout geometry (Playwright, machine-verifiable)
+**Status:** ✅ PASSED 2026-09-04 at 1280 / 1500 / 1700 / 1920px
+- No content/rail overlap at any width (min gap 9px at 1280)
+- Tile grids fill their rows: Helsinki 4-up at 238px, Stockholm/Tallinn/Oslo/Bergen 4-up at 249px, zero unused row space
+- Rows holding one or two tiles render normal 360px cards rather than stretching
+
+### QA4 — Wide-screen visual review
+**Status:** ⏳ PENDING — awaiting user access to a desktop
+**Why:** the >1500px measure change (840px → 1100px) has been measured but not seen. Geometry is sound; the aesthetic result is unconfirmed. Below 1500px nothing changed.
 
 ---
 

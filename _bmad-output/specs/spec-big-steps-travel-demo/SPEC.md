@@ -13,15 +13,18 @@ sources:
 
 ## Why
 
-A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-08-29) failed to deliver the promised features: AI condensed itinerary content, inline links were not implemented, activity tiles remained at the end of sections instead of inline, and the real BST logo was never inserted. Steve Fader (President, Big Steps Travel) responded with 8 new issues (Email 4, Aug 31) and then confirmed most were fixed in Email 5 (Sep 3) while adding 8 more remaining edits. He sees the "finish line" — trust is recovering but the product is not done. As of 2026-09-03: 22 of 41 requirements done; 14 not built (including 8 new from Email 5); 3 need real-device fix (B6 flags, C5 mobile nav, F7 heading). All development and QA must validate on real Windows Chrome desktop AND real iPhone — Playwright alone is insufficient.
+A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-08-29) failed to deliver the promised features: AI condensed itinerary content, inline links were not implemented, activity tiles remained at the end of sections instead of inline, and the real BST logo was never inserted. Steve Fader (President, Big Steps Travel) responded with 8 new issues (Email 4, Aug 31) and then confirmed most were fixed in Email 5 (Sep 3) while adding 8 more remaining edits. He sees the "finish line" — trust is recovering.
 
-> ⚠️ **QA PROCESS RULE:** B6 and C5 were marked DONE by Playwright but confirmed broken by Steve on Sep 3. Features are only DONE when verified on real Windows Chrome + real iPhone.
+**Status as of 2026-09-04:** all requirements from Emails 3, 4 and 5 are implemented. B6 (flags on Windows Chrome) and C5 (mobile bar on iPhone) — the two items Steve reported broken twice — are now **verified on real hardware** via user-supplied screenshots from a Windows laptop and an iPhone. A line-by-line DOCX audit on 2026-09-04 found and fixed two genuine content regressions (5 missing Stockholm add-on items; a condensed Helsinki Synagogue description) plus two broken image URLs. Nothing has been sent to Steve since 2026-09-02.
+
+> ⚠️ **QA PROCESS RULE:** B6 and C5 were marked DONE by Playwright but confirmed broken by Steve on Sep 3. Features are only DONE when verified on real Windows Chrome + real iPhone. This rule proved itself again on 2026-09-04: Playwright reported "0 flag images" (its sandbox blocks the CDN) and so could not see that Twemoji was injecting unsized images that rendered ~170px tall. Only a real-iPhone screenshot caught it.
 
 ## Capabilities
 
 - **CAP-1** — Hero / Intro page
-  - **intent:** The intro page displays the real BST logo, slogan, 3-line stacked heading (Client Name / Trip Name / Travel Journal), date range, and countries with emoji flags visible on Windows Chrome.
-  - **success:** Visual test on Chrome Windows shows logo image (not SVG), 3 separate heading lines, emoji flags rendered.
+  - **intent:** The intro page displays the slogan, a 3-line stacked heading (Client Name / Trip Name / Travel Journal), the date range, and the countries with flags that render on Windows Chrome as well as iPhone.
+  - **success:** Visual test on real Chrome/Windows shows 3 separate heading lines in one typeface at decreasing sizes, and flags rendered as images sized to the surrounding text.
+  - **note:** The BST logo is deliberately absent. Steve asked for it (Email 4, item 1), but the supplied PNG had an opaque white background which is what produced the "random Big Steps Travel in white banner" he then asked to delete (Email 5, item 3). Product decision by the user: ship without a logo and ask Steve for a transparent-background file. This is a decision, not an outstanding defect.
 
 - **CAP-2** — Navigation (desktop + mobile)
   - **intent:** Desktop city rail shows "Click for Quick Search" heading, city links, and Reservation Links/Info + Google Map Links buttons stacked below "Return". Mobile shows a fixed bottom scrollable bar with city chips and those same two buttons.
@@ -111,11 +114,12 @@ Steve receives the updated link, reviews it on desktop and iPhone, and does not 
 
 ## Open Questions
 
-- OQ-4: B9 — What exactly is the "Big Steps Travel in white banner" Steve sees? Must inspect on live site: is it (a) the logo PNG with opaque white background pixels, (b) the onerror fallback span, or (c) another element? Resolution determines the fix.
-- OQ-5: B6 — Which flag rendering solution to implement? Options: Twemoji CDN script (automatic, SVG flags), static PNG flag images per country, or country code text fallback (FI / EE / SE / NO). Decision affects complexity and CDN dependency.
-- OQ-6: B7 — What is the exact trip name in the DOCX (without "Escape")? Likely "Scandinavian/Baltic" based on DOCX filename "Nordic-Baltic Region Scandinavia 2026" but must confirm before editing `data.js tripName`.
+- OQ-7: Does Steve have a transparent-background version of the BST logo? The draft email asks him. Until he supplies one, the hero ships without a logo (see CAP-1 note).
 
 *Previously resolved:*
 - OQ-1 resolved: User decision — Add-on Options renders for ALL cities. (Now superseded: heading removed entirely per F12.)
 - OQ-2 resolved: Oslo food was AI-invented. Replaced verbatim from DOCX.
 - OQ-3 resolved: Bergen + Stockholm food were AI-invented. Replaced verbatim. Inline links from DOCX added.
+- OQ-4 resolved (2026-09-03): The white banner was the logo block. Logo and topbar both removed; verified absent on real Windows Chrome.
+- OQ-5 resolved (2026-09-03/04): Twemoji CDN chosen. Primary jsDelivr, cdnjs as `onerror` fallback (the cdnjs path for v14.0.2 returns 404). Requires `img.emoji{height:1em;width:1em}` — without it Twemoji's images render at natural SVG size. Verified rendering on real Windows Chrome and real iPhone.
+- OQ-6 resolved (2026-09-03): Trip name is "Scandinavian/Baltic". "Escape" was AI-added and is removed.
