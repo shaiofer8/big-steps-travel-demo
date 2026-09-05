@@ -293,8 +293,8 @@
           }).join("")}
       </div>
       <div class="mobile-bar-actions">
-        <button class="rail-btn rail-btn--primary" id="openReservationsMobile">📋 Reservations</button>
-        <button class="rail-btn rail-btn--secondary" id="openMapMobile">🗺️ Map</button>
+        <button class="rail-btn rail-btn--primary" id="openReservationsMobile">📋 Reservation Links/Info</button>
+        <button class="rail-btn rail-btn--secondary" id="openMapMobile">🗺️ Google Map Links</button>
       </div>`;
     document.getElementById("openReservationsMobile").addEventListener("click", openReservationsPanel);
     document.getElementById("openMapMobile").addEventListener("click", openMapPanel);
