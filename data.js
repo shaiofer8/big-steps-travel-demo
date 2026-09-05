@@ -273,7 +273,8 @@ const DAYS = [
     blocks: [
       { time: "9:00 AM", icon: "tour", title: "Stockholm Full City — Multi Island", resId: "tourStockholmMultiIsland", blurb: "Gamla Stan cobblestone streets, medieval buildings, and historic sites, founded 1252. Meeting point: Skeppsbron 25, Gamla Stan." },
       { time: "Midday", icon: "food", title: "Fika in Gamla Stan", detail: "Traditional Swedish fika (coffee + pastry) at Systrarna Andersson. The Swedish art of Fika, pronounced \"fee-kuh\", is one of the country's most cherished customs — pause for coffee, cake, and relaxation." },
-      { time: "Afternoon", icon: "activity", title: "Nobel Prize Museum & Storkyrkan Cathedral", detail: "Nobel Prize Museum — Stockholm Pass, Gamla Stan Square. Interactive exhibits and audio commentary. Storkyrkan Stockholm Cathedral (1300s) — the mother church, site of royal weddings and parliamentary ceremonies.", mapQuery: "Nobel Prize Museum, Stockholm" },
+      { time: "Afternoon", icon: "activity", title: "Nobel Prize Museum", detail: "1 hr, Stockholm Pass, Gamla Stan Square. Since 1901 the Nobel Prize has been awarded to more than 950 people and organizations for achievements in medicine, literature, physics, chemistry, economics and peace. Self-guided tour — interactive exhibits with audio commentary on the Nobel Laureates and founder Alfred Nobel.", mapQuery: "Nobel Prize Museum, Stockholm" },
+      { time: "Afternoon", icon: "activity", title: "Storkyrkan — Stockholm Cathedral", detail: "Stockholm Pass. Unique Scandinavian architecture in the medieval Old Town — the mother church of Stockholm, dating to the 1300s. At the heart of religious and political life in Sweden: site of royal weddings and the annual opening ceremony of parliament.", mapQuery: "Storkyrkan, Stockholm" },
       { time: "Afternoon", icon: "activity", title: "The Great Synagogue", detail: "Kings Garden — Wahrendorffsgatan 3A. Menorah donated by King Gustav 1792.", mapQuery: "Great Synagogue Stockholm" },
       { time: "Evening", icon: "activity", title: "IceBar Stockholm", detail: "In Hotel C, next to Central Station. 30–60 min, includes a drink in an ice glass — room kept at 23°F. Capes & gloves provided. Less crowded 11–2 PM; lively 5–7 PM pre-dinner. Book through Hellotickets or Tickadoo apps.", mapQuery: "IceBar Stockholm" },
     ]},
@@ -321,7 +322,8 @@ const DAYS = [
       { time: "9:10 AM", icon: "flight", title: "Fly Stockholm → Oslo", resId: "flightStockholmToOslo", blurb: "A quick one-hour flight into Norway." },
       { time: "12:00 PM", icon: "hotel", title: "Check in — Hotel Christiania Teater", resId: "hotelOslo", blurb: "Top-floor city views, right in the heart of Oslo." },
       { time: "1:00 PM", icon: "tour", title: "Private City Tour, Hidden Gems", resId: "tourOsloLocals", blurb: "A local's introduction to Oslo. Meeting point: Oslo Cathedral main entrance." },
-      { time: "Evening", icon: "activity", title: "Karl Johans Gate & Grand Hotel", detail: "Oslo's lively main pedestrian street, running from the main train station to the Royal Palace and the National Theatre. Visit Grand Hotel for a drink at the rooftop bar or glass-domed bar — winner of the Nobel Peace Prize waves from here.", mapQuery: "Grand Hotel Oslo" },
+      { time: "Evening", icon: "activity", title: "Karl Johans Gate", detail: "Oslo's lively main pedestrian street, running from the main train station to the Royal Palace and the National Theatre.", mapQuery: "Karl Johans gate, Oslo" },
+      { time: "Evening", icon: "activity", title: "Grand Hotel", detail: "Winner of the Nobel Peace Prize waves to the crowd from here. Visit for a drink at the rooftop bar or the glass-domed bar.", mapQuery: "Grand Hotel Oslo" },
     ]},
 
   { date: "2026-06-20", city: "Oslo", title: "Royal Palace & Harbor",
@@ -336,7 +338,8 @@ const DAYS = [
 
   { date: "2026-06-21", city: "Oslo", title: "Fjord Explorers & Vigeland Park",
     blocks: [
-      { time: "Morning", icon: "activity", title: "Fram Museum & Kon-Tiki Museum", detail: "Ferry to Bygdøy / Museum Island (Oslo Pass) — bus #30 or ferry. Fram Museum (1½ hr, Oslo Pass): original arctic and Antarctic expedition ship used by famed explorer Roald Amundsen, first person to reach the South Pole. Interactive and immersive. Kon-Tiki / RA2 Museum (1½ hr, Oslo Pass) — next door to Fram.", mapQuery: "Fram Museum, Oslo" },
+      { time: "Morning", icon: "activity", title: "Fram Museum", detail: "1½ hr, Oslo Pass. Ferry to Bygdøy / Museum Island — bus #30 or ferry. The original arctic and Antarctic expedition ship used by explorer Roald Amundsen, the first person to reach the South Pole. Interactive and immersive.", mapQuery: "Fram Museum, Oslo" },
+      { time: "Morning", icon: "activity", title: "Kon-Tiki Museum", detail: "1½ hr, Oslo Pass. Right next door to the Fram Museum, on Bygdøy / Museum Island.", mapQuery: "Kon-Tiki Museum, Oslo" },
       { time: "Midday", icon: "activity", title: "Holmenkollen Ski Jump", detail: "Olympic ski tower — viewing platform, great views from the top of Oslo. International Ski Museum (4,000-year history). Zip line down like the ski jumpers! Take metro Line #1 to Holmenkollen station and follow signs.", mapQuery: "Holmenkollen Ski Jump, Oslo" },
       { time: "Afternoon", icon: "activity", title: "SALT — Art Project & Space", detail: "Art project and entertainment space — food, music and atmosphere.", mapQuery: "SALT Oslo" },
       { time: "Late afternoon", icon: "activity", title: "Vigeland Sculpture Park", detail: "200 sculptures by Gustav Vigeland, each depicting people at different stages of life. One of the most popular sites in Oslo. Open 24/7. Tram #12 to Vigelandsparken, or any metro line to Majorstuen + 5-min walk.", mapQuery: "Vigeland Park, Oslo" },

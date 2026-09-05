@@ -87,10 +87,14 @@
       </button>`;
   }
 
-  // F11: generic time-of-day labels → bullet point (Steve Sep 3 item 7)
+  // F11: generic time-of-day labels → bullet point (Steve Sep 3 item 7).
+  // Sep 5 item 6: "Any time" was still slipping through — the set had "Late
+  // Afternoon" but data.js has "Late afternoon" (lowercase a), an exact-match
+  // set is one typo away from missing an entry. Lowercased on both sides now
+  // so a casing difference can't reopen this.
   const GENERIC_TIMES = new Set([
-    "Morning","Afternoon","Late Afternoon","Evening","Night",
-    "All day","All Day","Day","Midday","Noon","TBD",""
+    "morning","late morning","afternoon","late afternoon","evening","night",
+    "all day","day","midday","noon","any time","after 5 pm","tbd",""
   ]);
 
   function planRow(block) {
@@ -98,10 +102,11 @@
     const group = hasRes ? typeGroup(RESERVATIONS[block.resId].type) : "";
     // F11: show "•" for items without a precise clock time
     const t = block.time == null ? "" : String(block.time).trim();
-    const timeDisplay = (!t || GENERIC_TIMES.has(t)) ? "•" : t;
+    const isBullet = !t || GENERIC_TIMES.has(t.toLowerCase());
+    const timeDisplay = isBullet ? "•" : t;
     return `
       <div class="plan-row ${hasRes ? "restype-" + group : ""}">
-        <div class="plan-time mono">${timeDisplay}</div>
+        <div class="plan-time mono${isBullet ? " plan-time--bullet" : ""}">${timeDisplay}</div>
         <div class="plan-main">
           <div class="plan-title">${block.title}</div>
           ${ticket(block)}
@@ -279,19 +284,18 @@
       mobileBar.setAttribute("aria-label", "City navigation");
       document.body.appendChild(mobileBar);
     }
-    // Real destination cities first, then travel days (dimmed) at end
+    // Sep 5 item 3: chips follow itinerary order (Departure first, Return last) —
+    // matches the desktop rail's order. An earlier version pushed the two travel-day
+    // groups to the end, which put Departure out of sequence; Steve caught it.
     const travelDays = ["In Flight", "Departure"];
-    const chipsSorted = [
-      ...groups.filter(g => !travelDays.includes(g.city)).map((g, _i) => ({ g, i: groups.indexOf(g) })),
-      ...groups.filter(g => travelDays.includes(g.city)).map((g, _i) => ({ g, i: groups.indexOf(g) })),
-    ];
     mobileBar.innerHTML = `
       <div class="mobile-bar-chips">
-        ${chipsSorted.map(({ g, i }) => {
+        ${groups.map((g, i) => {
             const isTravel = travelDays.includes(g.city);
             return `<a class="mobile-chip${isTravel ? " mobile-chip--travel" : ""}" href="#city-${i}">${displayCity(g.city)}</a>`;
           }).join("")}
       </div>
+      <h5 class="mobile-bar-heading">Click for Quick Search</h5>
       <div class="mobile-bar-actions">
         <button class="rail-btn rail-btn--primary" id="openReservationsMobile">📋 Reservation Links/Info</button>
         <button class="rail-btn rail-btn--secondary" id="openMapMobile">🗺️ Google Map Links</button>
@@ -393,10 +397,34 @@
     panel.showModal();
   }
   function openMapPanel() {
+    // Sep 5 item 4: walk the itinerary in its own order — city group, then each
+    // day within it, then each plan block in that day, pulling a reservation's
+    // mapQuery in at the point a block references it via resId (a hotel
+    // check-in block has no mapQuery of its own; the hotel record does).
+    // EXPLORE tiles assigned to a day slot in with that day; Add-On tiles with
+    // no day land once, after the city's last day — matching where they render
+    // on the page. Previously this was three separate passes (all day-block
+    // mapQueries, then all reservations, then all EXPLORE tiles), so hotels and
+    // tours always landed after every day regardless of when they happened.
     const rows = [];
-    for (const d of DAYS) for (const b of (d.blocks || [])) if (b.mapQuery && b.mapQuery.trim()) rows.push({ name: b.title, city: d.city, q: b.mapQuery });
-    for (const r of Object.values(RESERVATIONS)) if (r.mapQuery) rows.push({ name: r.title, city: r.city || "", q: r.mapQuery });
-    for (const [city, items] of Object.entries(EXPLORE)) for (const p of items) if (p.mapQuery && p.mapQuery.trim()) rows.push({ name: p.name, city, q: p.mapQuery });
+    for (const g of groups) {
+      for (const { day: d } of g.days) {
+        for (const b of (d.blocks || [])) {
+          if (b.mapQuery && b.mapQuery.trim()) {
+            rows.push({ name: b.title, city: g.city, q: b.mapQuery });
+          } else if (b.resId && RESERVATIONS[b.resId] && RESERVATIONS[b.resId].mapQuery) {
+            const r = RESERVATIONS[b.resId];
+            rows.push({ name: r.title, city: g.city, q: r.mapQuery });
+          }
+        }
+        for (const p of (EXPLORE[g.city] || [])) {
+          if (p.day === d.date && p.mapQuery && p.mapQuery.trim()) rows.push({ name: p.name, city: g.city, q: p.mapQuery });
+        }
+      }
+      for (const p of (EXPLORE[g.city] || [])) {
+        if (!p.day && p.mapQuery && p.mapQuery.trim()) rows.push({ name: p.name, city: g.city, q: p.mapQuery });
+      }
+    }
     const seen = new Set();
     const unique = rows.filter((r) => (seen.has(r.q) ? false : (seen.add(r.q), true)));
     panelBody.innerHTML = `

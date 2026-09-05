@@ -46,22 +46,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 
 /* Hero — intro page: centered logo, slogan, client name, dates, countries
    with flags (Steve's full intro-page spec, 2026-08-29). */
-.hero{position:relative;height:82vh;min-height:520px;overflow:clip;color:#fff}
+/* Sep 5 item 2: a 1/4in break between the hero photo and the first city-band
+   photo (Departure) so the two images read as distinct, not as one seam. */
+.hero{position:relative;height:82vh;min-height:520px;overflow:clip;color:#fff;margin-bottom:24px}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(26,26,26,.4) 0%, rgba(26,26,26,.66) 55%, rgba(26,26,26,.93) 100%)}
 .hero-content{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-block:64px;gap:0}
 .hero-logo{display:flex;justify-content:center}
 /* Logo + slogan are one brand lockup, tightly paired, with a clear break before
-   the client name below — Steve's word for the old treatment was "random", i.e.
-   it read as unanchored, not merely as the wrong colour.
-   Source PNG is 92x82, so render under that (60px) to stay sharp on a Retina
-   screen. A 1px white edge keeps the dark navy mark legible on the photo
-   without the bloom that made it look like it was glowing. */
-.hero-logo-img{
-  height:60px;width:auto;
-  filter:drop-shadow(0 0 1px rgba(255,255,255,.85))
-         drop-shadow(0 1px 4px rgba(0,0,0,.5));
-}
+   the client name below. Sep 5: Steve confirmed the ORIGINAL logo file (with
+   its own opaque cream background) is correct — the "white banner" he flagged
+   Sep 3 was the topbar (removed same day, see B9), not this image. So this is
+   the un-edited PNG from commit 7a09fe2, not a transparent cutout — the
+   earlier transparency pass (0c57e88/0a9d102/0f06dd7) solved a problem Steve
+   never actually had. Source PNG is 92x82; render under that (60px) to stay
+   sharp on a Retina screen. A plain drop-shadow lifts the badge off the photo. */
+.hero-logo-img{height:60px;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
 .hero-slogan{margin-top:7px;font-family:var(--display);font-style:italic;font-size:1rem;color:var(--gold-soft)}
 /* .hero-client removed — replaced by .hero-heading 3-line structure (B3) */
 .hero-dates{margin-top:16px;font-size:1.08rem;color:#e8e4d8;font-weight:500}
@@ -92,6 +92,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .plan-countdown{font-size:.72rem;color:var(--gold-deep);padding-bottom:10px;margin-bottom:8px;border-bottom:1px solid var(--line)}
 .plan-row{display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;padding-block:10px}
 .plan-time{font-size:.78rem;color:var(--ink-mute);padding-top:3px}
+/* Sep 5 item 7: the bullet marker (not clock times) sits flush right in its
+   column, closer to the title, and slightly bolder/larger so it reads as a
+   deliberate marker rather than a stray dot at the far left. */
+.plan-time--bullet{text-align:right;font-weight:700;font-size:1.05rem;padding-top:0}
 .plan-main{min-width:0}
 .plan-title{font-weight:600;font-size:.95rem}
 @media (max-width:500px){.plan-row{grid-template-columns:56px minmax(0,1fr);gap:10px}.plan-time{font-size:.72rem}}
@@ -237,7 +241,10 @@ img.emoji{height:1em;width:1em;margin:0 .06em 0 .1em;vertical-align:-.1em;displa
 .mobile-chip{flex:0 0 auto;font-size:.78rem;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none;white-space:nowrap}
 .mobile-chip:hover,.mobile-chip.active{background:var(--gold-soft);border-color:var(--gold);color:var(--gold-deep)}
 .mobile-chip--travel{opacity:.55;font-size:.72rem}
-.mobile-bar-actions{display:flex;gap:8px;margin-top:6px}
+/* Sep 5 item 3: same "Click for Quick Search" label as the desktop rail heading,
+   placed directly above the action buttons per Steve's wording. */
+.mobile-bar-heading{font-size:.62rem;font-weight:700;letter-spacing:.05em;color:var(--gold-deep);text-decoration:underline;text-underline-offset:2px;text-align:center;margin:6px 0 2px}
+.mobile-bar-actions{display:flex;gap:8px;margin-top:4px}
 .mobile-bar-actions .rail-btn{flex:1 1 0;min-width:0;text-align:center;font-size:.78rem;padding:7px 8px;border-radius:8px}
 /* Steve's full button names ("Reservation Links/Info") fit on one line from
    375px up. Below that — iPhone SE, and any iPhone with Display Zoom on, which
