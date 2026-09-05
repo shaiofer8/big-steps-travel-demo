@@ -15,16 +15,18 @@ sources:
 
 A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-08-29) failed to deliver the promised features: AI condensed itinerary content, inline links were not implemented, activity tiles remained at the end of sections instead of inline, and the real BST logo was never inserted. Steve Fader (President, Big Steps Travel) responded with 8 new issues (Email 4, Aug 31) and then confirmed most were fixed in Email 5 (Sep 3) while adding 8 more remaining edits. He sees the "finish line" — trust is recovering.
 
-**Status as of 2026-09-04:** all requirements from Emails 3, 4 and 5 are implemented. B6 (flags on Windows Chrome) and C5 (mobile bar on iPhone) — the two items Steve reported broken twice — are now **verified on real hardware** via user-supplied screenshots from a Windows laptop and an iPhone. A line-by-line DOCX audit on 2026-09-04 found and fixed two genuine content regressions (5 missing Stockholm add-on items; a condensed Helsinki Synagogue description) plus two broken image URLs. Nothing has been sent to Steve since 2026-09-02.
+**Status as of 2026-09-05:** all requirements from Emails 3, 4 and 5 are implemented and verified on real hardware. Shai's Sep 5 reply (disclosing 8 fixes plus the two content regressions found in audit) drew Steve's Sep 5 reply — 9 more edits, opening with an unprompted compliment on the mobile bar and closing "I think we will be done with these edits!!!". 6 of those 9 are done (I1–I4, I6–I8 in requirements.md); 2 are explicitly deferred as larger passes (I5: time ranges; I9: per-tile images + 4 missing tiles).
+
+**Correction (2026-09-05):** an earlier version of this file's OQ-4 and CAP-1 claimed the logo's own opaque background *was* the "white banner" Steve flagged in Email 5, and that the fix was to ship without a logo / make it transparent. **That was wrong.** Steve's Sep 5 reply confirms the banner was the topbar (a separate element, already removed the same day as B9) — the logo itself was never the problem. The original opaque logo file is restored; see CAP-1.
 
 > ⚠️ **QA PROCESS RULE:** B6 and C5 were marked DONE by Playwright but confirmed broken by Steve on Sep 3. Features are only DONE when verified on real Windows Chrome + real iPhone. This rule proved itself again on 2026-09-04: Playwright reported "0 flag images" (its sandbox blocks the CDN) and so could not see that Twemoji was injecting unsized images that rendered ~170px tall. Only a real-iPhone screenshot caught it.
 
 ## Capabilities
 
 - **CAP-1** — Hero / Intro page
-  - **intent:** The intro page displays the slogan, a 3-line stacked heading (Client Name / Trip Name / Travel Journal), the date range, and the countries with flags that render on Windows Chrome as well as iPhone.
-  - **success:** Visual test on real Chrome/Windows shows 3 separate heading lines in one typeface at decreasing sizes, and flags rendered as images sized to the surrounding text.
-  - **note:** The BST logo is deliberately absent. Steve asked for it (Email 4, item 1), but the supplied PNG had an opaque white background which is what produced the "random Big Steps Travel in white banner" he then asked to delete (Email 5, item 3). Product decision by the user: ship without a logo and ask Steve for a transparent-background file. This is a decision, not an outstanding defect.
+  - **intent:** The intro page displays the original BST logo (unedited, opaque background), the slogan, a 3-line stacked heading (Client Name / Trip Name / Travel Journal), the date range, and the countries with flags that render on Windows Chrome as well as iPhone, with a 1/4in (24px) break before the first city-band photo.
+  - **success:** Visual test on real Chrome/Windows shows the logo above the slogan, 3 separate heading lines in one typeface at decreasing sizes, flags rendered as images sized to the surrounding text, and a visible gap before the next photo.
+  - **note (corrected 2026-09-05):** the logo is NOT absent and is NOT transparent. It went through three states this project: (1) present with its original opaque background through early Sep; (2) removed entirely on Sep 3 on a misreading of an unrelated instruction; (3) restored Sep 5 but made transparent, on the mistaken theory that its background was Email 5's "white banner". Steve's Sep 5 reply corrects this directly: *"Yes, the logo should be the version that was there originally with yellow background."* The banner was the topbar, a separate element removed the same day (Sep 3) as B9 — before the logo was ever touched. Current state: original file (git `7a09fe2`), unedited.
 
 - **CAP-2** — Navigation (desktop + mobile)
   - **intent:** Desktop city rail shows "Click for Quick Search" heading, city links, and Reservation Links/Info + Google Map Links buttons stacked below "Return". Mobile shows a fixed bottom scrollable bar with city chips and those same two buttons.
@@ -82,6 +84,22 @@ A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-0
   - **intent:** The "Add on Options of Things to Do & See" heading is removed from all city sections. EXPLORE tiles at the end of city sections render without a section label. Each tile — both inline and end-of-section — links to Google Maps and TripAdvisor.
   - **success:** Zero instances of "Add on Options" heading visible in the page. Every EXPLORE tile has clickable Maps + TripAdvisor links. (Merged into CAP-7 success for implementation.)
 
+- **CAP-16** — Google Map Links panel follows itinerary order (added 2026-09-05, Email 6 item 4)
+  - **intent:** The Map panel lists every mapQuery-bearing entry in the order the trip actually happens — city group, then day within it, then plan block — not grouped by data type (all day-blocks, then all reservations, then all EXPLORE tiles).
+  - **success:** The panel's row order matches the on-page reading order top to bottom: e.g. Helsinki's hotel appears before Helsinki's day-6/10 tiles, which appear before day-6/11 items, etc.
+
+- **CAP-17** — Split sites the source document keeps separate (added 2026-09-05, Email 6 item 8)
+  - **intent:** No plan block merges two distinct named sites into one entry when the DOCX lists them separately.
+  - **success:** "Nobel Prize Museum & Storkyrkan Cathedral", "Karl Johans Gate & Grand Hotel", and "Fram Museum & Kon-Tiki Museum" each render as two separate plan blocks, each retaining its own full detail from the DOCX.
+
+- **CAP-18** — Timed items show a range where the source gives one (Email 6 item 5) — **NOT YET IMPLEMENTED**
+  - **intent:** A plan block whose DOCX source gives a start and end time (flights, ferries, tours, timed events) displays both, e.g. "9:00 AM – 11:00 AM", not just the start. Hotels are the deliberate exception — check-in time only, no end time.
+  - **success:** Every timed non-hotel block with an end time in the DOCX shows a range. Hotel blocks are unaffected.
+
+- **CAP-19** — Every Activity tile has its own dedicated image; no tiles missing (Email 6 item 9) — **NOT YET IMPLEMENTED**
+  - **intent:** No two EXPLORE tiles share a placeholder image sourced for a different site. Skansen (6/16), Storkyrkan Cathedral (6/15), Fram Museum (6/21) and Kon-Tiki Museum (6/21) exist as EXPLORE tiles with correct `day:` fields, not only as plan blocks.
+  - **success:** Every tile's image is unique to that site (verified by URL, not just visually). All four named tiles render inline on their stated day.
+
 ## Constraints
 
 - All itinerary text verbatim from DOCX "Itinerary - Nordic-Baltic Region Scandinavia 2026" — no AI rewriting, summarizing, or condensing. Full detail as Steve wrote it.
@@ -96,7 +114,7 @@ A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-0
 ## Non-goals
 
 - No new design direction changes — implement Steve's requests exactly, no unsolicited redesigns.
-- No features beyond the 41 requirements in `requirements.md`.
+- No features beyond what's tracked in `requirements.md` (grows as Steve sends new edits — do not invent scope beyond his stated requests).
 - No backend, database, authentication, or CMS.
 - No work on `/classic/` or `/` (Continuation) templates in this phase.
 - No production SaaS infrastructure — this is a sales demo.
@@ -104,7 +122,7 @@ A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-0
 
 ## Success signal
 
-Steve receives the updated link, reviews it on desktop and iPhone, and does not raise any new issues from the 41 requirements list. "I see the finish line" (Email 5, Sep 3) becomes "this is what I had in mind" — and the conversation advances toward a paid itinerary. No cross-device failures. No AI-generated words in the content. Both the Map and Reservation buttons are equally prominent in the rail.
+Steve receives the updated link, reviews it on desktop and iPhone, and does not raise any new issues beyond what's already tracked. Trajectory so far: "I see the finish line" (Email 5, Sep 3) → "I think we will be done with these edits!!!" (Email 6, Sep 5) — the remaining gap is I5 + I9, not new complaints. No cross-device failures. No AI-generated words in the content. Both the Map and Reservation buttons are equally prominent in the rail.
 
 ## Assumptions
 
@@ -114,12 +132,14 @@ Steve receives the updated link, reviews it on desktop and iPhone, and does not 
 
 ## Open Questions
 
-- OQ-7: Does Steve have a transparent-background version of the BST logo? The draft email asks him. Until he supplies one, the hero ships without a logo (see CAP-1 note).
+- OQ-8: I5 (time ranges) needs an end time per timed block. Where the DOCX doesn't state one explicitly (some blocks give only a start), leave the block as start-only rather than inventing an end time — matches the "don't invent" assumption below. Needs a pass through ITINERARY.txt to classify each timed block as range-available or start-only before touching data.js.
+- OQ-9: I9's "dedicated image per tile" — is a duplicate-but-topically-correct image (e.g. two Gamla Stan alley shots for two different Gamla Stan sites) acceptable, or does every tile need a photo of the specific site itself? Affects how much image research is required. Default assumption until told otherwise: site-specific where findable on Wikimedia Commons, thematically-matched fallback only when a specific photo can't be sourced.
 
 *Previously resolved:*
 - OQ-1 resolved: User decision — Add-on Options renders for ALL cities. (Now superseded: heading removed entirely per F12.)
 - OQ-2 resolved: Oslo food was AI-invented. Replaced verbatim from DOCX.
 - OQ-3 resolved: Bergen + Stockholm food were AI-invented. Replaced verbatim. Inline links from DOCX added.
-- OQ-4 resolved (2026-09-03): The white banner was the logo block. Logo and topbar both removed; verified absent on real Windows Chrome.
+- OQ-4 resolved (2026-09-03), **then corrected 2026-09-05:** the white banner was the *topbar*, not the logo. An intermediate session incorrectly concluded the logo's own background was the banner and made it transparent; Steve's Sep 5 reply ("the version that was there originally with yellow background") settled it — the original opaque logo file is correct and is restored.
 - OQ-5 resolved (2026-09-03/04): Twemoji CDN chosen. Primary jsDelivr, cdnjs as `onerror` fallback (the cdnjs path for v14.0.2 returns 404). Requires `img.emoji{height:1em;width:1em}` — without it Twemoji's images render at natural SVG size. Verified rendering on real Windows Chrome and real iPhone.
 - OQ-6 resolved (2026-09-03): Trip name is "Scandinavian/Baltic". "Escape" was AI-added and is removed.
+- OQ-7 resolved (2026-09-05), superseded by the OQ-4 correction: no transparent-background file is needed — the original logo was correct all along.
