@@ -238,4 +238,12 @@ img.emoji{height:1em;width:1em;margin:0 .06em 0 .1em;vertical-align:-.1em;displa
 .mobile-chip:hover,.mobile-chip.active{background:var(--gold-soft);border-color:var(--gold);color:var(--gold-deep)}
 .mobile-chip--travel{opacity:.55;font-size:.72rem}
 .mobile-bar-actions{display:flex;gap:8px;margin-top:6px}
-.mobile-bar-actions .rail-btn{flex:1;text-align:center;font-size:.78rem;padding:7px 8px;border-radius:8px}
+.mobile-bar-actions .rail-btn{flex:1 1 0;min-width:0;text-align:center;font-size:.78rem;padding:7px 8px;border-radius:8px}
+/* Steve's full button names ("Reservation Links/Info") fit on one line from
+   375px up. Below that — iPhone SE, and any iPhone with Display Zoom on, which
+   reports 320px — .rail-btn's nowrap pushes them past the viewport. Let them
+   wrap instead of clipping or overflowing; his wording matters more than
+   keeping these on a single line. */
+@media (max-width:374px){
+  .mobile-bar-actions .rail-btn{white-space:normal;line-height:1.15;font-size:.72rem;padding:6px}
+}
