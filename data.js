@@ -490,7 +490,7 @@ const EXPLORE = {
       img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Fotografiska_2010a.jpg/960px-Fotografiska_2010a.jpg", mapQuery: "Fotografiska Stockholm" },
     { name: "Royal Armory", tag: "Add-On",
       desc: "Stockholm Pass, 90 min — Royal Wardrobe, Royal Arsenal and private collections of select monarchs.",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/The_Royal_Armoury%2C_Livrustkammaren%2C_Royal_Palace%2C_Stockholm%2C_Sweden_2011_-_Murat_%C3%96zsoy_14.jpg/960px-The_Royal_Armoury%2C_Livrustkammaren%2C_Royal_Palace%2C_Stockholm%2C_Sweden_2011_-_Murat_%C3%96zsoy_14.jpg", mapQuery: "Royal Armory Stockholm" },
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/The_Royal_Armoury%2C_Livrustkammaren%2C_Royal_Palace%2C_Stockholm%2C_Sweden_2011_-_Murat_%C3%96zsoy_14.jpg/960px-The_Royal_Armoury%2C_Livrustkammaren%2C_Royal_Palace%2C_Stockholm%2C_Sweden_2011_-_Murat_%C3%96zsoy_14.jpg", mapQuery: "Royal Armory Stockholm" },
     { name: "Riddarholmen Church", tag: "Add-On",
       desc: "30 min — within grounds of the Royal Palace in Old Town. The royal necropolis where many Swedish kings and queens are buried.",
       img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Riddarholmen_with_Riddarholmskyrkan_in_Stockholm%2C_Sweden%2C_January_2004.jpg/960px-Riddarholmen_with_Riddarholmskyrkan_in_Stockholm%2C_Sweden%2C_January_2004.jpg", mapQuery: "Riddarholmen Church, Stockholm" },
