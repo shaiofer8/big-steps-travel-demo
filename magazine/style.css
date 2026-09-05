@@ -51,7 +51,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(26,26,26,.4) 0%, rgba(26,26,26,.66) 55%, rgba(26,26,26,.93) 100%)}
 .hero-content{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-block:64px;gap:0}
 .hero-logo{display:flex;justify-content:center}
-.hero-logo svg{border-radius:9px;box-shadow:0 4px 14px -4px rgba(0,0,0,.5)}
+/* drop-shadow (not box-shadow) follows the logo's alpha edge, so the mark lifts
+   off the dark photo without drawing a rectangle around it. */
+.hero-logo-img{height:64px;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.55))}
 .hero-slogan{margin-top:14px;font-family:var(--display);font-style:italic;font-size:1rem;color:var(--gold-soft)}
 /* .hero-client removed — replaced by .hero-heading 3-line structure (B3) */
 .hero-dates{margin-top:16px;font-size:1.08rem;color:#e8e4d8;font-weight:500}
@@ -168,7 +170,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
 img.emoji{height:1em;width:1em;margin:0 .06em 0 .1em;vertical-align:-.1em;display:inline-block}
 
 /* B1: logo removed temporarily — PNG not in assets yet; styles kept for future reinstatement */
-/* .hero-logo-img, .hero-logo-fallback — inactive */
+/* .hero-logo-fallback removed deliberately — a text fallback reading
+   "Big Steps Travel" is exactly what Steve asked to delete. */
 
 /* B3: 3-line hero heading */
 .hero-heading{margin-top:28px;text-align:center}

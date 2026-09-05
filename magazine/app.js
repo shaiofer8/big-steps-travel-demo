@@ -10,7 +10,13 @@
   const panel = document.getElementById("panel");
   const panelBody = document.getElementById("panelBody");
 
-  // B1: logo removed temporarily — PNG not yet in assets; no fallback text shown.
+  // B1: Real BST logo. The PNG now has a transparent background — its original
+  // opaque white background was what Steve saw as the "random Big Steps Travel
+  // in white banner" (Email 5, item 3). No text fallback: if the image ever
+  // fails we hide it, because a text fallback is what would re-create that
+  // banner. Steve asked for the logo in Email 4, item 1.
+  const LOGO_HTML = `<img src="assets/bst-logo.png" alt="Big Steps Travel" class="hero-logo-img"
+    onerror="this.style.display='none'">`;
 
   // Display-only renaming for the two synthetic travel-day groups (Steve's
   // ask: "In Flight" -> "Departure", "Departure" -> "Return"). The underlying
@@ -235,7 +241,7 @@
         <img src="${TRIP.heroImage}" alt="" aria-hidden="true" class="hero-img">
         <div class="hero-fade"></div>
         <div class="wrap hero-content">
-
+          <div class="hero-logo">${LOGO_HTML}</div>
           <p class="hero-slogan">${TRIP.brand.tagline}</p>
           <div class="hero-heading">
             <div class="hero-client-name">${TRIP.clientName}</div>
