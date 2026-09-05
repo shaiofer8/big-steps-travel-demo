@@ -9,6 +9,12 @@ Steve picked **New Concept** (`/magazine/`) as the direction to build on, over C
 Replied 2026-08-29 confirming we'll build his edits into `/magazine/`; he approved ("Yes, let's see what an updated NC looks like").
 **Full edit list below implemented and pushed** (commit `8e76547`), verified with a headless Playwright pass (zero console/page errors, all renames/links/countdowns confirmed rendering correctly). Live at the same URL: `https://shaiofer8.github.io/big-steps-travel-demo/magazine/`.
 
+## Status (2026-09-05) — everything Steve has asked for is done
+
+Two more feedback rounds came in after the list below (Aug 31 email, then Sep 3 email — both in thread `1a0587e62723f79a`). All items from both rounds are implemented and pushed (`bd307de` + logo fixes through `732f869`), verified live on `shaiofer8.github.io/big-steps-travel-demo/magazine/`, and Shai's 2026-09-05 reply to Steve confirms each one point by point. Nothing from Steve is currently outstanding.
+
+Important: some of Steve's later asks **reverse** earlier ones in this doc — always check the Gmail thread for the newest word on any item before "fixing" something that looks wrong from this list alone (see the addon-heading item below for the clearest example).
+
 ## Steve's requested edits — New Concept (`/magazine/`)
 
 **Intro page:**
@@ -25,7 +31,7 @@ Replied 2026-08-29 confirming we'll build his edits into `/magazine/`; he approv
 - Add a countdown line just below day/date: "Helsinki – day 1 of 3 / Trip – day 1 of 17"
 - Box and separate each day/section (like the Continuation template does)
 - Links/videos/extra info need to be inline on the actual day at point of use — not bulked at the end
-- Rename "Sites & Things to Do" → "Add on Options of Things to Do & See" (a catch-all list of unplanned extras, stays at end of city section)
+- ~~Rename "Sites & Things to Do" → "Add on Options of Things to Do & See"~~ **SUPERSEDED 2026-09-03**: Steve's Sep 3 email, item 8, reversed this — the section now mixes planned activities and add-ons, so he asked to delete the heading entirely (no heading at all) and give every tile Maps+TripAdvisor links like Food & Drink. Implemented in `bd307de` (F12) and confirmed live — do NOT re-add any heading here, that would undo his explicit request.
 - Rename "Before You Go" → "Tips & General Guidance"
 - Make Food & Drink entries clickable → Google Maps / TripAdvisor
 - Add missing tours he flagged: ABBA Museum, Brad Paisley concert, Helsinki Synagogue Tour, etc.
