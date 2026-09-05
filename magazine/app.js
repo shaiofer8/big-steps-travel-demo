@@ -103,10 +103,20 @@
     // F11: show "•" for items without a precise clock time
     const t = block.time == null ? "" : String(block.time).trim();
     const isBullet = !t || GENERIC_TIMES.has(t.toLowerCase());
-    const timeDisplay = isBullet ? "•" : t;
+    // Sep 5 item 5: show a range where the DOCX gives an explicit end time —
+    // flights, ferries, tours, timed events. Hotels stay start-only per
+    // Steve's explicit exception, enforced here (not just by omission in
+    // data.js) so a future hotel block that picks up a timeEnd by mistake
+    // still renders correctly.
+    const isHotel = block.icon === "hotel";
+    const timeEnd = !isBullet && !isHotel && block.timeEnd ? String(block.timeEnd).trim() : "";
+    // Break after the start time so a range wraps predictably in the 70px
+    // column instead of the browser choosing an odd break point.
+    const timeDisplay = isBullet ? "•" : (timeEnd ? `${t}<br>– ${timeEnd}` : t);
+    const timeClass = isBullet ? " plan-time--bullet" : (timeEnd ? " plan-time--range" : "");
     return `
       <div class="plan-row ${hasRes ? "restype-" + group : ""}">
-        <div class="plan-time mono${isBullet ? " plan-time--bullet" : ""}">${timeDisplay}</div>
+        <div class="plan-time mono${timeClass}">${timeDisplay}</div>
         <div class="plan-main">
           <div class="plan-title">${block.title}</div>
           ${ticket(block)}

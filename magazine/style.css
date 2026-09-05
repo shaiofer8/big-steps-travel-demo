@@ -96,9 +96,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:transparent}
    column, closer to the title, and slightly bolder/larger so it reads as a
    deliberate marker rather than a stray dot at the far left. */
 .plan-time--bullet{text-align:right;font-weight:700;font-size:1.05rem;padding-top:0}
+/* Sep 5 item 5: a start–end range ("11:15 AM – 3:15 PM") doesn't fit the 70px
+   column on one line — shrink and let it wrap on the explicit <br> in the
+   markup rather than an arbitrary browser-chosen break point. */
+.plan-time--range{font-size:.68rem;line-height:1.35}
 .plan-main{min-width:0}
 .plan-title{font-weight:600;font-size:.95rem}
 @media (max-width:500px){.plan-row{grid-template-columns:56px minmax(0,1fr);gap:10px}.plan-time{font-size:.72rem}}
+/* Must come after the mobile query above: both are single-class selectors
+   (equal specificity), so without this the media query's plan-time rule
+   would win at <=500px and the range would be too large for the narrower
+   56px column at that width. */
+@media (max-width:500px){.plan-time--range{font-size:.62rem}}
 .plan-detail{font-size:.86rem;color:var(--ink-soft);margin-top:5px;max-width:58ch}
 .plan-maplink{display:inline-block;margin-top:6px;font-size:.8rem;font-weight:700;color:var(--gold-deep);text-decoration:none}
 
