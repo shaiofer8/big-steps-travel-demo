@@ -15,9 +15,9 @@ sources:
 
 A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-08-29) failed to deliver the promised features: AI condensed itinerary content, inline links were not implemented, activity tiles remained at the end of sections instead of inline, and the real BST logo was never inserted. Steve Fader (President, Big Steps Travel) responded with 8 new issues (Email 4, Aug 31) and then confirmed most were fixed in Email 5 (Sep 3) while adding 8 more remaining edits. He sees the "finish line" — trust is recovering.
 
-**Status as of 2026-09-05:** all requirements from Emails 3, 4 and 5 are implemented and verified on real hardware. Shai's Sep 5 reply (disclosing 8 fixes plus the two content regressions found in audit) drew Steve's Sep 5 reply — 9 more edits, opening with an unprompted compliment on the mobile bar and closing "I think we will be done with these edits!!!". 6 of those 9 are done (I1–I4, I6–I8 in requirements.md); 2 are explicitly deferred as larger passes (I5: time ranges; I9: per-tile images + 4 missing tiles).
+**Status as of 2026-09-05 (end of session):** all requirements from Emails 3, 4 and 5 are implemented and verified on real hardware. Shai's Sep 5 reply (disclosing 8 fixes plus the two content regressions found in audit) drew Steve's Sep 5 reply — 9 more edits, opening with an unprompted compliment on the mobile bar and closing "I think we will be done with these edits!!!". **All 9 are now done** (I1–I9 in requirements.md), including the two larger passes: I5 (19 blocks given explicit end-time ranges) and I9 (23 duplicate tile images replaced with unique sources, 4 missing tiles added). Nothing from this round has been sent to Steve yet — awaiting user approval per the standing rule.
 
-**Correction (2026-09-05):** an earlier version of this file's OQ-4 and CAP-1 claimed the logo's own opaque background *was* the "white banner" Steve flagged in Email 5, and that the fix was to ship without a logo / make it transparent. **That was wrong.** Steve's Sep 5 reply confirms the banner was the topbar (a separate element, already removed the same day as B9) — the logo itself was never the problem. The original opaque logo file is restored; see CAP-1.
+**Correction (2026-09-05):** the logo was briefly (and wrongly) treated as the source of Email 5's "white banner" complaint — see CAP-1's note for the corrected history before touching the logo again.
 
 > ⚠️ **QA PROCESS RULE:** B6 and C5 were marked DONE by Playwright but confirmed broken by Steve on Sep 3. Features are only DONE when verified on real Windows Chrome + real iPhone. This rule proved itself again on 2026-09-04: Playwright reported "0 flag images" (its sandbox blocks the CDN) and so could not see that Twemoji was injecting unsized images that rendered ~170px tall. Only a real-iPhone screenshot caught it.
 
@@ -92,13 +92,15 @@ A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-0
   - **intent:** No plan block merges two distinct named sites into one entry when the DOCX lists them separately.
   - **success:** "Nobel Prize Museum & Storkyrkan Cathedral", "Karl Johans Gate & Grand Hotel", and "Fram Museum & Kon-Tiki Museum" each render as two separate plan blocks, each retaining its own full detail from the DOCX.
 
-- **CAP-18** — Timed items show a range where the source gives one (Email 6 item 5) — **NOT YET IMPLEMENTED**
+- **CAP-18** — Timed items show a range where the source gives one (Email 6 item 5)
   - **intent:** A plan block whose DOCX source gives a start and end time (flights, ferries, tours, timed events) displays both, e.g. "9:00 AM – 11:00 AM", not just the start. Hotels are the deliberate exception — check-in time only, no end time.
   - **success:** Every timed non-hotel block with an end time in the DOCX shows a range. Hotel blocks are unaffected.
+  - **done 2026-09-05:** 19 blocks given a `timeEnd`, sourced from an explicit DOCX end time or an unambiguous duration (e.g. "90 min"). Hotel exclusion enforced in app.js by icon check, not just by omission in data.js. Live-verified: 19 ranges rendering, 0 on hotel rows.
 
-- **CAP-19** — Every Activity tile has its own dedicated image; no tiles missing (Email 6 item 9) — **NOT YET IMPLEMENTED**
+- **CAP-19** — Every Activity tile has its own dedicated image; no tiles missing (Email 6 item 9)
   - **intent:** No two EXPLORE tiles share a placeholder image sourced for a different site. Skansen (6/16), Storkyrkan Cathedral (6/15), Fram Museum (6/21) and Kon-Tiki Museum (6/21) exist as EXPLORE tiles with correct `day:` fields, not only as plan blocks.
   - **success:** Every tile's image is unique to that site (verified by URL, not just visually). All four named tiles render inline on their stated day.
+  - **done 2026-09-05:** 23 duplicate-image tiles (across 5 sharing-groups, 28 tiles) given unique verified Wikimedia Commons photos; 4 missing tiles added. Live-verified: 47/47 tiles, 47/47 images loading, 0 duplicate `src` values.
 
 ## Constraints
 
@@ -110,6 +112,7 @@ A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-0
 - Rate $150 flat/itinerary. Payment: Payoneer only (user is PayPal-blocked).
 - **⛔ CROSS-DEVICE PARITY (non-negotiable):** Every feature, visual, and interaction must be fully functional on BOTH Windows desktop Chrome (1280px+) AND iPhone (real hardware, Safari/Chrome). A feature that works on one device but not the other is a bug. Steve tests on both.
 - **⛔ QA PROCESS RULE (from 2026-09-03 process failure):** A feature is DONE only when verified on real Windows Chrome desktop AND real iPhone — not just headless Playwright. Playwright catches layout/DOM bugs; it cannot catch Windows emoji rendering failures or iPhone Safari fixed-positioning quirks. B6 and C5 passed Playwright but were confirmed broken by Steve.
+- **Wikimedia Commons image URLs must be copied verbatim from an API `imageinfo.thumburl` (or `find-tile-images.js`-style verified script output), never hand-typed.** A hand-typed hash prefix (`d/da` instead of the correct `8/8e`) broke the Royal Armory tile in CAP-19 and only surfaced in live post-deploy QA.
 
 ## Non-goals
 
@@ -122,7 +125,7 @@ A first rebuild of the "New Concept" magazine-format itinerary demo (sent 2026-0
 
 ## Success signal
 
-Steve receives the updated link, reviews it on desktop and iPhone, and does not raise any new issues beyond what's already tracked. Trajectory so far: "I see the finish line" (Email 5, Sep 3) → "I think we will be done with these edits!!!" (Email 6, Sep 5) — the remaining gap is I5 + I9, not new complaints. No cross-device failures. No AI-generated words in the content. Both the Map and Reservation buttons are equally prominent in the rail.
+Steve receives the updated link, reviews it on desktop and iPhone, and does not raise any new issues beyond what's already tracked. Trajectory so far: "I see the finish line" (Email 5, Sep 3) → "I think we will be done with these edits!!!" (Email 6, Sep 5). All 9 of his Email 6 items are implemented; the next signal is his reaction to this round once it's sent. No cross-device failures. No AI-generated words in the content. Both the Map and Reservation buttons are equally prominent in the rail.
 
 ## Assumptions
 
@@ -132,10 +135,11 @@ Steve receives the updated link, reviews it on desktop and iPhone, and does not 
 
 ## Open Questions
 
-- OQ-8: I5 (time ranges) needs an end time per timed block. Where the DOCX doesn't state one explicitly (some blocks give only a start), leave the block as start-only rather than inventing an end time — matches the "don't invent" assumption below. Needs a pass through ITINERARY.txt to classify each timed block as range-available or start-only before touching data.js.
-- OQ-9: I9's "dedicated image per tile" — is a duplicate-but-topically-correct image (e.g. two Gamla Stan alley shots for two different Gamla Stan sites) acceptable, or does every tile need a photo of the specific site itself? Affects how much image research is required. Default assumption until told otherwise: site-specific where findable on Wikimedia Commons, thematically-matched fallback only when a specific photo can't be sourced.
+*None currently open.*
 
 *Previously resolved:*
+- OQ-8 resolved (2026-09-05): only blocks with an unambiguous DOCX-stated end time or explicit duration got a `timeEnd`; ambiguous or unstated cases were left start-only rather than invented. 19 of the ~30 timed blocks qualified.
+- OQ-9 resolved (2026-09-05): site-specific Wikimedia Commons photo used wherever findable (23 of 25 needed); thematically-matched fallback used for the 2 where none existed (Paja Workshop, Sandviken Neighborhood) — policy applied as stated below.
 - OQ-1 resolved: User decision — Add-on Options renders for ALL cities. (Now superseded: heading removed entirely per F12.)
 - OQ-2 resolved: Oslo food was AI-invented. Replaced verbatim from DOCX.
 - OQ-3 resolved: Bergen + Stockholm food were AI-invented. Replaced verbatim. Inline links from DOCX added.
